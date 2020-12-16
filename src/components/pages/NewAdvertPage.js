@@ -5,8 +5,8 @@ import useForm from '../../hooks/useForm';
 import MainLayout from '../layout/MainLayout';
 import SelectTags from '../shared/SelectTags';
 import Button from '../shared/Button';
-import LoaderPage from '../shared/LoaderPage';
-import FileLoad from '../shared/FileLoad';
+import ModalLoader from '../shared/ModalLoader';
+import FileImageLoad from '../shared/FileImageLoad';
 import { createAdvert } from '../../api/adverts';
 import './NewAdvertPage.scss';
 
@@ -91,11 +91,11 @@ const NewAdvertPage = () => {
             </Radio.Group>
           </div>
         </div>
-        <div className="formNewAd-field">
+        <div className="formNewAd-field centered">
           <SelectTags onChange={onChange} defaultTags={tags} />
         </div>
         <div className="formNewAd-field centered">
-          <FileLoad
+          <FileImageLoad
             label="Select a single image file"
             onFileSelect={file => {
               // console.log(URL.createObjectURL(file));
@@ -105,26 +105,12 @@ const NewAdvertPage = () => {
         </div>
 
         <div className="formNewAd-field centered">
-          <div>
-            <img
-              className="formNewAd-field--img"
-              src={
-                selectedFile
-                  ? URL.createObjectURL(selectedFile)
-                  : 'https://via.placeholder.com/150x150?text=No+Image'
-              }
-              alt="No imag selected"
-            />
-          </div>
-        </div>
-
-        <div className="formNewAd-field centered">
           <Button type="submit" className="secondary" disabled={!canSubmit()}>
             Create Advert
           </Button>
         </div>
       </form>
-      {submitting && <LoaderPage />}
+      {submitting && <ModalLoader />}
       {error && (
         <div className="newAdPage-error">
           <Alert message={error.message} type="error" />

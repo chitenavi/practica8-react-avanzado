@@ -16,6 +16,11 @@
   cursor: pointer;
   transition: transform 0.1s ease-in-out;
 
+  &.customLabel {
+    width: auto;
+    text-transform: unset;
+  }
+
   &.disabled {
     pointer-events: none;
     opacity: 0.5;

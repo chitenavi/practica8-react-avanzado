@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Alert } from 'antd';
 import MainLayout from '../layout/MainLayout';
-import Loader from '../shared/LoaderStyled';
+import ModalLoader from '../shared/ModalLoader';
 import Button from '../shared/Button';
 import { login } from '../../api/auth';
 
@@ -109,11 +109,7 @@ class LoginPage extends React.Component {
               </Button>
             </div>
           </form>
-          {submitting && (
-            <div className="loginPage-loading">
-              <Loader size="medium" />
-            </div>
-          )}
+          {submitting && <ModalLoader />}
           {error && (
             <div className="loginPage-error">
               <Alert message={error.message} type="error" />

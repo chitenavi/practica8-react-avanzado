@@ -17,7 +17,7 @@ function SelectTags({ onChange, defaultTags }) {
         onChange({ target: { value, name: 'tags' } });
       }}
       mode="tags"
-      style={{ width: '75%' }}
+      style={{ width: '100%' }}
       defaultValue={defaultTags}
       placeholder="Select tags"
     >

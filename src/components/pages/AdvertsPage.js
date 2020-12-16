@@ -5,7 +5,7 @@ import storage from '../../utils/storage';
 import MainLayout from '../layout/MainLayout';
 import FilterForm from '../shared/FilterForm';
 import AdvertCard from '../adverts/AdvertCard';
-import Loader from '../shared/LoaderStyled';
+import Spinner from '../shared/Spinner';
 import Button from '../shared/Button';
 import { getAdverts } from '../../api/adverts';
 
@@ -124,7 +124,7 @@ const AdvertsPage = () => {
           />
         </div>
         <div className="advertsPage-content">
-          {loadingAds ? <Loader /> : renderContent()}
+          {loadingAds ? <Spinner /> : renderContent()}
         </div>
       </div>
     </MainLayout>

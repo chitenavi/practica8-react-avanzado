@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Alert } from 'antd';
 import MainLayout from '../layout/MainLayout';
-import Loader from '../shared/LoaderStyled';
-import LoaderPage from '../shared/LoaderPage';
+import Loader from '../shared/Spinner';
+import ModalLoader from '../shared/ModalLoader';
 import Button from '../shared/Button';
 import ModalConfirm from '../shared/ModalConfirm';
 import { getAdvertDetail, deleteAdvert } from '../../api/adverts';
@@ -109,7 +109,7 @@ function AdvertDetailPage() {
       </ModalConfirm>
       <div className="adDelete">
         {deletingAd ? (
-          <LoaderPage />
+          <ModalLoader />
         ) : (
           errorDeleting && (
             <Alert
