@@ -26,17 +26,14 @@ function LoginPage({ onLogin, history }) {
 
   const handleSubmit = async event => {
     event.preventDefault();
-
     setSubmitting(true);
-    setError(null);
-
     try {
       const { token } = await login(form);
+      setSubmitting(false);
       onLogin(token).then(() => history.push('/adverts'));
     } catch (err) {
-      setError(err);
-    } finally {
       setSubmitting(false);
+      setError(err);
     }
   };
 

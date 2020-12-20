@@ -16,8 +16,7 @@ function AdvertDetailPage() {
   const [showModal, setShowModal] = useState(false);
   const [loadingAd, setLoadingAd] = useState(true);
   const [deletingAd, setDeletingAd] = useState(false);
-  const [errorDeleting, setErrorDeleting] = useState(null);
-  const serverUrl = process.env.REACT_APP_API_URL;
+  const [error, setError] = useState(null);
 
   const getAdDetail = async adId => {
     setLoadingAd(true);
@@ -34,14 +33,13 @@ function AdvertDetailPage() {
 
   const deleteAd = async () => {
     setDeletingAd(true);
-    setErrorDeleting(null);
     try {
       await deleteAdvert(id);
       setDeletingAd(false);
       history.push('/adverts');
     } catch (err) {
       setDeletingAd(false);
-      setErrorDeleting(err);
+      setError(err);
     }
   };
 
@@ -58,7 +56,7 @@ function AdvertDetailPage() {
             <img
               src={
                 advert.photo
-                  ? `${serverUrl}${advert.photo}`
+                  ? `${advert.photoUrl}`
                   : 'https://via.placeholder.com/600x400?text=No+Image'
               }
               alt={advert.name}
@@ -84,7 +82,6 @@ function AdvertDetailPage() {
           className="secondary"
           onClick={() => {
             setShowModal(true);
-            setErrorDeleting(null);
           }}
         >
           Delete
@@ -111,10 +108,10 @@ function AdvertDetailPage() {
         {deletingAd ? (
           <ModalLoader />
         ) : (
-          errorDeleting && (
+          error && (
             <Alert
               className="adDelete-error"
-              message={errorDeleting.message}
+              message={error.message}
               type="error"
             />
           )

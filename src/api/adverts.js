@@ -1,6 +1,7 @@
 import client from './client';
 
 const adverstUrl = 'apiv1/adverts';
+const { REACT_APP_API_URL: apiUrl } = process.env;
 
 export const getAdverts = (queryString = '') => {
   const url = `${adverstUrl}?${queryString}`;
@@ -9,7 +10,11 @@ export const getAdverts = (queryString = '') => {
 
 export const getAdvertDetail = advertId => {
   const url = `${adverstUrl}/${advertId}`;
-  return client.get(url);
+  return client.get(url).then(response => {
+    response.photoUrl = `${apiUrl}${response.photo}`;
+    // console.log(response);
+    return response;
+  });
 };
 
 export const getAllTags = () => {
