@@ -44,8 +44,12 @@ function App({ initialToken }) {
             <NewAdvertPage />
           </PrivateRoute>
           <Route path="/login" exact>
-            {({ history }) => (
-              <LoginPage onLogin={handleLogin} history={history} />
+            {tokenUser ? (
+              <Redirect to="/adverts" />
+            ) : (
+              ({ history }) => (
+                <LoginPage onLogin={handleLogin} history={history} />
+              )
             )}
           </Route>
           <Route path="/404" exact>
