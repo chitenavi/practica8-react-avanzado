@@ -1,124 +1,99 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Alert } from 'antd';
 import MainLayout from '../layout/MainLayout';
 import ModalLoader from '../shared/ModalLoader';
 import Button from '../shared/Button';
 import { login } from '../../api/auth';
+import useForm from '../../hooks/useForm';
 
 import './LoginPage.scss';
 
-class LoginPage extends React.Component {
-  state = {
-    form: {
-      email: '',
-      password: '',
-      remcredentials: false,
-    },
-    submitting: false,
-    error: null,
-  };
+function LoginPage({ onLogin, history }) {
+  const [form, onChange] = useForm({
+    email: '',
+    password: '',
+    remcredentials: false,
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
-  canSubmit = () => {
-    const {
-      form: { email, password },
-      submitting,
-    } = this.state;
+  const { email, password, remcredentials } = form;
+
+  const canSubmit = () => {
     return !submitting && email && password;
   };
 
-  handleSubmit = async event => {
+  const handleSubmit = async event => {
     event.preventDefault();
 
-    this.setState({ submitting: true, error: null });
-    const { onLogin, history } = this.props;
-    const { form } = this.state;
+    setSubmitting(true);
+    setError(null);
 
     try {
       const { token } = await login(form);
-
-      this.setState({ error: null });
       onLogin(token).then(() => history.push('/adverts'));
-    } catch (error) {
-      this.setState({ error });
+    } catch (err) {
+      setError(err);
     } finally {
-      this.setState({ submitting: false });
+      setSubmitting(false);
     }
   };
 
-  handleChange = ev => {
-    this.setState(state => ({
-      form: { ...state.form, [ev.target.name]: ev.target.value },
-    }));
-  };
+  return (
+    <MainLayout title="Welcome to Nodepop SPA">
+      <div className="loginPage">
+        <form onSubmit={handleSubmit} className="formLogin">
+          <div className="formLogin-field">
+            <input
+              type="text"
+              onChange={onChange}
+              name="email"
+              value={email}
+              placeholder="email"
+            />
+          </div>
+          <div className="formLogin-field">
+            <input
+              type="password"
+              onChange={onChange}
+              value={password}
+              name="password"
+              placeholder="password"
+            />
+          </div>
 
-  handleChangeCheck = ev => {
-    this.setState(state => ({
-      form: { ...state.form, [ev.target.name]: ev.target.checked },
-    }));
-  };
-
-  render() {
-    const {
-      form: { email, password, remcredentials },
-      error,
-      submitting,
-    } = this.state;
-    return (
-      <MainLayout title="Welcome to Nodepop SPA">
-        <div className="loginPage">
-          <form onSubmit={this.handleSubmit} className="formLogin">
-            <div className="formLogin-field">
+          <div className="formLogin-field">
+            <label htmlFor="remember">
               <input
-                type="text"
-                onChange={this.handleChange}
-                name="email"
-                value={email}
-                placeholder="email"
+                type="checkbox"
+                id="remember"
+                name="remcredentials"
+                onChange={ev => {
+                  onChange({
+                    target: { name: ev.target.name, value: ev.target.checked },
+                  });
+                }}
+                checked={remcredentials}
               />
-            </div>
-            <div className="formLogin-field">
-              <input
-                type="password"
-                onChange={this.handleChange}
-                value={password}
-                name="password"
-                placeholder="password"
-              />
-            </div>
-
-            <div className="formLogin-field">
-              <label htmlFor="remember">
-                <input
-                  type="checkbox"
-                  id="remember"
-                  name="remcredentials"
-                  onChange={this.handleChangeCheck}
-                  checked={remcredentials}
-                />
-                Remember credentials
-              </label>
-            </div>
-            <div className="formLogin-field">
-              <Button
-                type="submit"
-                className="secondary"
-                disabled={!this.canSubmit()}
-              >
-                Log in
-              </Button>
-            </div>
-          </form>
-          {submitting && <ModalLoader />}
-          {error && (
-            <div className="loginPage-error">
-              <Alert message={error.message} type="error" />
-            </div>
-          )}
-        </div>
-      </MainLayout>
-    );
-  }
+              Remember credentials
+            </label>
+          </div>
+          <div className="formLogin-field">
+            <Button type="submit" className="secondary" disabled={!canSubmit()}>
+              Log in
+            </Button>
+          </div>
+        </form>
+        {submitting && <ModalLoader />}
+        {error && (
+          <div className="loginPage-error">
+            <Alert message={error.message} type="error" />
+          </div>
+        )}
+      </div>
+    </MainLayout>
+  );
 }
 
 LoginPage.propTypes = {
