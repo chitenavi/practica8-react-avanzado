@@ -23,6 +23,7 @@ export const authLoginSuccess = auth => ({
 });
 
 export const login = crendentials => {
+  // eslint-disable-next-line func-names
   return async function (dispatch, getState, { history, api }) {
     dispatch(authLoginRequest());
     try {

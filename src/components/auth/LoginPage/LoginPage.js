@@ -1,40 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+
 import { Alert } from 'antd';
-import MainLayout from '../layout/MainLayout';
-import ModalLoader from '../shared/ModalLoader';
-import Button from '../shared/Button';
-import { login } from '../../api/auth';
-import useForm from '../../hooks/useForm';
+import MainLayout from '../../layout/MainLayout';
+import ModalLoader from '../../shared/ModalLoader';
+import Button from '../../shared/Button';
+import useForm from '../../../hooks/useForm';
 
 import './LoginPage.scss';
 
-function LoginPage({ onLogin, history }) {
+function LoginPage({ onLogin, loading, error }) {
   const [form, onChange] = useForm({
     email: '',
     password: '',
     remcredentials: false,
   });
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState(null);
 
   const { email, password, remcredentials } = form;
 
   const canSubmit = () => {
-    return !submitting && email && password;
+    return !loading && email && password;
   };
 
-  const handleSubmit = async event => {
-    event.preventDefault();
-    setSubmitting(true);
-    try {
-      const { token } = await login(form);
-      setSubmitting(false);
-      onLogin(token).then(() => history.push('/adverts'));
-    } catch (err) {
-      setSubmitting(false);
-      setError(err);
-    }
+  const handleSubmit = ev => {
+    const credentials = form;
+    ev.preventDefault();
+    onLogin(credentials);
   };
 
   return (
@@ -82,7 +73,7 @@ function LoginPage({ onLogin, history }) {
             </Button>
           </div>
         </form>
-        {submitting && <ModalLoader />}
+        {loading && <ModalLoader />}
         {error && (
           <div className="loginPage-error">
             <Alert message={error.message} type="error" />
@@ -95,7 +86,12 @@ function LoginPage({ onLogin, history }) {
 
 LoginPage.propTypes = {
   onLogin: PropTypes.func.isRequired,
-  history: PropTypes.objectOf(PropTypes.any).isRequired,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.objectOf(PropTypes.object),
+};
+
+LoginPage.defaultProps = {
+  error: null,
 };
 
 export default LoginPage;

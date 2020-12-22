@@ -38,10 +38,12 @@ const AdvertsPage = () => {
   const [loadingAds, setLoadingAds] = useState(true);
   const [error, setError] = useState(null);
 
-  const handleSubmit = async form => {
+  const handleSubmit = form => {
     // Save filter data on LocalStorage
 
-    storage.set('userFilterForm', form);
+    if (form !== defaultFilter) {
+      storage.set('userFilterForm', form);
+    }
 
     // Generate query string,
     setQueryString(formToQueryString(form));
