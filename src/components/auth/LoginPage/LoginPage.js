@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Alert } from 'antd';
 import MainLayout from '../../layout/MainLayout';
 import ModalLoader from '../../shared/ModalLoader';
-import Button from '../../shared/Button';
+import ErrorMessage from '../../errors/ErrorMessage';
+import Button from '../../shared/Button/Button';
 import useForm from '../../../hooks/useForm';
 
 import './LoginPage.scss';
@@ -75,9 +75,7 @@ function LoginPage({ onLogin, loading, error }) {
         </form>
         {loading && <ModalLoader />}
         {error && (
-          <div className="loginPage-error">
-            <Alert message={error.message} type="error" />
-          </div>
+          <ErrorMessage className="loginPage-error" message={error.message} />
         )}
       </div>
     </MainLayout>

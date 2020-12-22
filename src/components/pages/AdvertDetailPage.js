@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Alert } from 'antd';
+
 import MainLayout from '../layout/MainLayout';
-import Loader from '../shared/Spinner';
 import ModalLoader from '../shared/ModalLoader';
 import Button from '../shared/Button';
 import ModalConfirm from '../shared/ModalConfirm';
+import ErrorMessage from '../errors/ErrorMessage';
 import { getAdvertDetail, deleteAdvert } from '../../api/adverts';
 import './AdvertDetailPage.scss';
 
@@ -15,7 +15,7 @@ function AdvertDetailPage() {
   const [advert, setAdvert] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [loadingAd, setLoadingAd] = useState(true);
-  const [deletingAd, setDeletingAd] = useState(false);
+  // const [deletingAd, setDeletingAd] = useState(false);
   const [error, setError] = useState(null);
 
   const getAdDetail = async adId => {
@@ -32,13 +32,13 @@ function AdvertDetailPage() {
   };
 
   const deleteAd = async () => {
-    setDeletingAd(true);
+    setLoadingAd(true);
     try {
       await deleteAdvert(id);
-      setDeletingAd(false);
+      setLoadingAd(false);
       history.push('/adverts');
     } catch (err) {
-      setDeletingAd(false);
+      setLoadingAd(false);
       setError(err);
     }
   };
@@ -48,6 +48,16 @@ function AdvertDetailPage() {
   }, []);
 
   const renderContent = () => {
+    if (error) {
+      return (
+        <div className="adDelete">
+          <ErrorMessage className="adDelete-error" message={error.message} />
+        </div>
+      );
+    }
+
+    if (!advert) return null;
+
     return (
       <div className="product">
         <h2 className="product-title">{advert.name}</h2>
@@ -92,7 +102,7 @@ function AdvertDetailPage() {
 
   return (
     <MainLayout title="Advert Detail">
-      {loadingAd ? <Loader size="medium" /> : advert && renderContent()}
+      {loadingAd ? <ModalLoader /> : renderContent()}
       <ModalConfirm
         title="Delete Advert"
         onClose={isConfirmed => {
@@ -104,19 +114,6 @@ function AdvertDetailPage() {
       >
         Are you sure to delete it?
       </ModalConfirm>
-      <div className="adDelete">
-        {deletingAd ? (
-          <ModalLoader />
-        ) : (
-          error && (
-            <Alert
-              className="adDelete-error"
-              message={error.message}
-              type="error"
-            />
-          )
-        )}
-      </div>
     </MainLayout>
   );
 }
