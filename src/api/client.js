@@ -15,9 +15,9 @@ const removeAuthorizationHeader = () => {
 };
 
 client.login = credentials =>
-  client.post('/apiv1/auth/login', credentials).then(auth => {
-    setAuthorizationHeader(auth.token);
-    return auth;
+  client.post('/apiv1/auth/login', credentials).then(token => {
+    setAuthorizationHeader(token);
+    return token;
   });
 
 // Logout method
@@ -28,8 +28,6 @@ client.logout = () =>
     resolve();
   });
 
-// COMPLETE: improve interceptor for better response manipulation
-
 client.interceptors.response.use(
   response => {
     // console.log(response);
@@ -38,7 +36,7 @@ client.interceptors.response.use(
         new Error(response.data.error || 'Something went wrong!!'),
       );
 
-    if (response.data.token) return response.data;
+    if (response.data.token) return response.data.token;
 
     return response.data.result;
   },

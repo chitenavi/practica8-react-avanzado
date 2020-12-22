@@ -2,14 +2,13 @@ import client from './client';
 import storage from '../utils/storage';
 
 export const login = credentials =>
-  client.login(credentials).then(auth => {
-    const { token } = auth;
-    if (credentials.remcredentials) storage.set('userToken', token);
-    return auth;
+  client.login(credentials).then(token => {
+    if (credentials.remcredentials) storage.set('userAuthToken', token);
+    return token;
   });
 
 export const logout = () =>
   client.logout().then(() => {
-    storage.remove('userToken');
+    storage.remove('userAuthToken');
     storage.remove('userFilterForm');
   });
