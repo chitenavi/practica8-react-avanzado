@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './MainLayout.scss';
 
-import Header from './Header';
+import Header from '../Header';
+
+import './MainLayout.scss';
 
 const MainLayout = ({ children, title }) => {
   return (

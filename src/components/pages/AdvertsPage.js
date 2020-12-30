@@ -5,6 +5,7 @@ import storage from '../../utils/storage';
 import MainLayout from '../layout/MainLayout';
 import FilterForm from '../shared/FilterForm';
 import AdvertCard from '../adverts/AdvertCard';
+import ErrorMessage from '../errors/ErrorMessage';
 import Spinner from '../shared/Spinner';
 import Button from '../shared/Button';
 import { getAdverts } from '../../api/adverts';
@@ -68,9 +69,10 @@ const AdvertsPage = () => {
   const renderContent = () => {
     if (error) {
       return (
-        <div className="advertsPage-content--error">
-          <h2>Error!: {error.message}</h2>
-        </div>
+        <ErrorMessage
+          message={error.message}
+          className="advertsPage-content--error"
+        />
       );
     }
     if (adverts.length === 0) {

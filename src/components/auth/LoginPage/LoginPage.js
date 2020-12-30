@@ -85,7 +85,7 @@ function LoginPage({ onLogin, loading, error }) {
 LoginPage.propTypes = {
   onLogin: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  error: PropTypes.objectOf(PropTypes.object),
+  error: PropTypes.objectOf(PropTypes.any),
 };
 
 LoginPage.defaultProps = {

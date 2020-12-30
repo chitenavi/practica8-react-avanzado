@@ -1,11 +1,11 @@
 import React, { useState, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Image } from 'antd';
-import Button from './Button';
+import Button from '../Button';
 import './FileImageLoad.scss';
 
 const FileImageLoad = ({ onFileSelect, label }) => {
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState(null);
   const inputRef = createRef(null);
 
   const handleFileInput = e => {
@@ -44,7 +44,7 @@ const FileImageLoad = ({ onFileSelect, label }) => {
           src={
             file
               ? URL.createObjectURL(file)
-              : 'https://via.placeholder.com/200x200?text=No+Image'
+              : 'http://via.placeholder.com/200x200?text=No+Image'
           }
         />
       </div>

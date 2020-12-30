@@ -7,7 +7,6 @@ import storage from './utils/storage';
 import { setupTokenClient } from './api/client';
 import configureStore from './store';
 
-import 'antd/dist/antd.css';
 import './scss/index.scss';
 
 const initialUserAuthToken = storage.get('userAuthToken') || null;

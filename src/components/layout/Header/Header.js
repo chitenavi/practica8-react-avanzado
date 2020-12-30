@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../api/auth';
+import Logo from '../../../assets/logo192.png';
+import { logout } from '../../../api/auth';
 import './Header.scss';
 
-import Button from '../shared/Button';
+import Button from '../../shared/Button';
 
-import { getIsLoggedUser } from '../../store/selectors';
-import { authLogout } from '../../store/actions';
+import { getIsLoggedUser } from '../../../store/selectors';
+import { authLogout } from '../../../store/actions';
 
 const Header = ({ className }) => {
   const actualPath = useLocation().pathname;
@@ -21,7 +22,7 @@ const Header = ({ className }) => {
     <header className={classNames('header', className)}>
       <Link to="/">
         <div className="header-logo">
-          <img src={`${process.env.PUBLIC_URL}/logo192.png`} alt="logo" />
+          <img src={Logo} alt="logo" />
         </div>
       </Link>
 

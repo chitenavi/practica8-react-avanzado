@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Select } from 'antd';
-import { getAllTags } from '../../api/adverts';
+import { getAllTags } from '../../../api/adverts';
 
 function SelectTags({ onChange, defaultTags }) {
   const [selTags, setSelTags] = useState();
