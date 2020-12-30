@@ -6,10 +6,12 @@ import AdvertsPage from '../pages/AdvertsPage';
 import AdvertDetailPage from '../pages/AdvertDetailPage';
 import NewAdvertPage from '../pages/NewAdvertPage';
 import NotFoundPage from '../pages/NotFoundPage';
+import FlashMessage from '../shared/FlashMessage';
 
 function App() {
   return (
     <div className="App">
+      <FlashMessage />
       <Switch>
         <Route path="/" exact>
           <Redirect to="/adverts" />

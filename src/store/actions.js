@@ -3,10 +3,40 @@ import {
   AUTH_LOGIN_FAILURE,
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGOUT,
+  UI_SET_NOTIFICATION,
+  UI_REMOVE_NOTIFICATION,
 } from './types';
 
-/** AUTH ACTIONS */
+/** UI ACTIONS */
+export const uiSetFlash = (type, message) => {
+  return {
+    type: UI_SET_NOTIFICATION,
+    payload: {
+      type,
+      message,
+    },
+  };
+};
 
+export const uiRemoveFlash = () => {
+  return {
+    type: UI_REMOVE_NOTIFICATION,
+  };
+};
+
+export const showFlashNotification = (
+  type,
+  message,
+  timeout = 2000,
+) => dispatch => {
+  dispatch(uiSetFlash(type, message));
+
+  setTimeout(() => {
+    dispatch(uiRemoveFlash());
+  }, timeout);
+};
+
+/** AUTH ACTIONS */
 export const authLoginRequest = () => ({
   type: AUTH_LOGIN_REQUEST,
 });
@@ -28,9 +58,12 @@ export const login = crendentials => {
     dispatch(authLoginRequest());
     try {
       await api.auth.login(crendentials);
-      dispatch(authLoginSuccess({ isLogged: true }));
-      history.push('/adverts');
+      await dispatch(authLoginSuccess({ isLogged: true }));
+      dispatch(showFlashNotification('success', 'Login Correcto!'));
+
+      // history.push('/adverts');
     } catch (error) {
+      dispatch(showFlashNotification('error', `Error: ${error.message}!`));
       dispatch(authLoginFailure(error));
     }
   };

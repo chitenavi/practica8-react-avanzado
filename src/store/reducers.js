@@ -7,6 +7,10 @@ const defaultState = {
   ui: {
     loading: false,
     error: null,
+    notification: {
+      type: '',
+      message: '',
+    },
   },
 };
 
@@ -32,6 +36,19 @@ export const ui = (state = defaultState.ui, action) => {
       return { ...state, loading: true };
     case types.AUTH_LOGIN_SUCCESS:
       return { ...state, error: null, loading: false };
+    case types.UI_SET_NOTIFICATION:
+      return {
+        ...state,
+        notification: action.payload,
+      };
+    case types.UI_REMOVE_NOTIFICATION:
+      return {
+        ...state,
+        notification: {
+          type: '',
+          message: '',
+        },
+      };
     default:
       return state;
   }

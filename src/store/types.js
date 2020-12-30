@@ -3,3 +3,6 @@ export const AUTH_LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
 export const AUTH_LOGIN_FAILURE = 'auth/LOGIN_FAILURE';
 
 export const AUTH_LOGOUT = 'auth/LOGOUT';
+
+export const UI_SET_NOTIFICATION = 'ui/SET_NOTIFICATION';
+export const UI_REMOVE_NOTIFICATION = 'ui/REMOVE_NOTIFICATION';
