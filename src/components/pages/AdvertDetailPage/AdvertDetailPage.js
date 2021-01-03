@@ -1,51 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 
-import MainLayout from '../layout/MainLayout';
-import ModalLoader from '../shared/ModalLoader';
-import Button from '../shared/Button';
-import ModalConfirm from '../shared/ModalConfirm';
-import ErrorMessage from '../errors/ErrorMessage';
-import { getAdvertDetail, deleteAdvert } from '../../api/adverts';
+import { useSelector } from 'react-redux';
+import MainLayout from '../../layout/MainLayout';
+import ModalLoader from '../../shared/ModalLoader';
+import Button from '../../shared/Button';
+import ModalConfirm from '../../shared/ModalConfirm';
+import ErrorMessage from '../../errors/ErrorMessage';
+import { getAdvertById } from '../../../store/selectors';
 import './AdvertDetailPage.scss';
 
-function AdvertDetailPage() {
+function AdvertDetailPage({ onDelete, error, loading }) {
   const { id } = useParams();
-  const history = useHistory();
-  const [advert, setAdvert] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [loadingAd, setLoadingAd] = useState(true);
-  // const [deletingAd, setDeletingAd] = useState(false);
-  const [error, setError] = useState(null);
 
-  const getAdDetail = async adId => {
-    setLoadingAd(true);
-    try {
-      const ad = await getAdvertDetail(adId);
-      setLoadingAd(false);
-      if (!ad) history.push('/404');
-      else setAdvert(ad);
-    } catch (err) {
-      setLoadingAd(false);
-      history.push('/404');
-    }
-  };
-
-  const deleteAd = async () => {
-    setLoadingAd(true);
-    try {
-      await deleteAdvert(id);
-      setLoadingAd(false);
-      history.push('/adverts');
-    } catch (err) {
-      setLoadingAd(false);
-      setError(err);
-    }
-  };
-
-  useEffect(() => {
-    getAdDetail(id);
-  }, []);
+  const advert = useSelector(getAdvertById(id));
 
   const renderContent = () => {
     if (error) {
@@ -67,7 +37,7 @@ function AdvertDetailPage() {
               src={
                 advert.photo
                   ? `${advert.photoUrl}`
-                  : 'https://via.placeholder.com/600x400?text=No+Image'
+                  : 'http://via.placeholder.com/600x400?text=No+Image'
               }
               alt={advert.name}
             />
@@ -102,11 +72,11 @@ function AdvertDetailPage() {
 
   return (
     <MainLayout title="Advert Detail">
-      {loadingAd ? <ModalLoader /> : renderContent()}
+      {loading ? <ModalLoader /> : renderContent()}
       <ModalConfirm
         title="Delete Advert"
         onClose={isConfirmed => {
-          if (isConfirmed) deleteAd();
+          if (isConfirmed) onDelete(id);
 
           setShowModal(false);
         }}
@@ -117,5 +87,15 @@ function AdvertDetailPage() {
     </MainLayout>
   );
 }
+
+AdvertDetailPage.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.objectOf(PropTypes.any),
+  onDelete: PropTypes.func.isRequired,
+};
+
+AdvertDetailPage.defaultProps = {
+  error: null,
+};
 
 export default AdvertDetailPage;

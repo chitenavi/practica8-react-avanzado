@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Select } from 'antd';
-import { getAllTags } from '../../../api/adverts';
+import { getTags } from '../../../store/selectors';
 
 function SelectTags({ onChange, defaultTags }) {
-  const [selTags, setSelTags] = useState();
   const { Option } = Select;
-
-  useEffect(() => {
-    getAllTags().then(stags => setSelTags(stags));
-  }, []);
+  const tags = useSelector(getTags);
 
   return (
     <Select
@@ -21,7 +18,7 @@ function SelectTags({ onChange, defaultTags }) {
       defaultValue={defaultTags}
       placeholder="Select tags"
     >
-      {selTags && selTags.map(tag => <Option key={tag}>{tag}</Option>)}
+      {tags && tags.map(tag => <Option key={tag}>{tag}</Option>)}
     </Select>
   );
 }

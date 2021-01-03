@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Radio, Input, InputNumber, Alert } from 'antd';
-import useForm from '../../hooks/useForm';
-import MainLayout from '../layout/MainLayout';
-import SelectTags from '../shared/SelectTags';
-import Button from '../shared/Button';
-import ModalLoader from '../shared/ModalLoader';
-import FileImageLoad from '../shared/FileImageLoad';
-import { createAdvert } from '../../api/adverts';
+import useForm from '../../../hooks/useForm';
+import MainLayout from '../../layout/MainLayout';
+import SelectTags from '../../shared/SelectTags';
+import Button from '../../shared/Button';
+import ModalLoader from '../../shared/ModalLoader';
+import FileImageLoad from '../../shared/FileImageLoad';
 import './NewAdvertPage.scss';
 
-const NewAdvertPage = () => {
-  const history = useHistory();
+const NewAdvertPage = ({ onCreate, error, loading }) => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [error, setError] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
   const [form, onChange] = useForm({
     name: '',
     sale: true,
@@ -29,24 +25,15 @@ const NewAdvertPage = () => {
 
   const onSubmitForm = async e => {
     e.preventDefault();
-    setSubmitting(true);
-    setError(null);
-    try {
-      const formData = new FormData();
-      Object.keys(form).forEach(key => {
-        if (key === 'tags') tags.forEach(val => formData.append(key, val));
-        else formData.append(key, form[key]);
-      });
+    const formData = new FormData();
+    Object.keys(form).forEach(key => {
+      if (key === 'tags') tags.forEach(val => formData.append(key, val));
+      else formData.append(key, form[key]);
+    });
 
-      if (selectedFile) formData.append('photo', selectedFile);
+    if (selectedFile) formData.append('photo', selectedFile);
 
-      const newAd = await createAdvert(formData);
-      setSubmitting(false);
-      history.push(`/advert/${newAd._id}`);
-    } catch (err) {
-      setSubmitting(false);
-      setError(err);
-    }
+    onCreate(formData);
   };
 
   // TODO: Create image thumbnail in the app when user select one
@@ -110,7 +97,7 @@ const NewAdvertPage = () => {
           </Button>
         </div>
       </form>
-      {submitting && <ModalLoader />}
+      {loading && <ModalLoader />}
       {error && (
         <div className="newAdPage-error">
           <Alert message={error.message} type="error" />
@@ -118,6 +105,16 @@ const NewAdvertPage = () => {
       )}
     </MainLayout>
   );
+};
+
+NewAdvertPage.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.objectOf(PropTypes.any),
+  onCreate: PropTypes.func.isRequired,
+};
+
+NewAdvertPage.defaultProps = {
+  error: null,
 };
 
 export default NewAdvertPage;

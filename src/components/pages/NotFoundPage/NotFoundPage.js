@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import image404 from '../../assets/404image.png';
-import Button from '../shared/Button';
+import image404 from '../../../assets/404image.png';
+import Button from '../../shared/Button';
 import './NotFoundPage.scss';
 
 const NotFoundPage = () => {

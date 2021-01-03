@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+
 import LoginPage from '../auth/LoginPage';
 import PrivateRoute from '../auth/PrivateRoute';
 import AdvertsPage from '../pages/AdvertsPage';

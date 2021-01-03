@@ -1,22 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import Logo from '../../../assets/logo192.png';
-import { logout } from '../../../api/auth';
+import Button from '../../shared/Button';
+import { getIsLoggedUser, getLocation } from '../../../store/selectors';
+import { logout } from '../../../store/actions';
+
 import './Header.scss';
 
-import Button from '../../shared/Button';
-
-import { getIsLoggedUser } from '../../../store/selectors';
-import { authLogout } from '../../../store/actions';
-
 const Header = ({ className }) => {
-  const actualPath = useLocation().pathname;
+  const actualPath = useSelector(getLocation).pathname;
   const isLogged = useSelector(getIsLoggedUser);
   const dispatch = useDispatch();
-  const onLogout = () => dispatch(authLogout());
 
   return (
     <header className={classNames('header', className)}>
@@ -44,10 +42,7 @@ const Header = ({ className }) => {
               </Link>
             )}
 
-            <Button
-              className="tertiary"
-              onClick={() => logout().then(onLogout)}
-            >
+            <Button className="tertiary" onClick={() => dispatch(logout())}>
               Log out
             </Button>
           </>
