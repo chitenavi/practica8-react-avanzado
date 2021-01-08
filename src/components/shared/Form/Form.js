@@ -4,6 +4,8 @@ import Button from '../Button';
 import useForm from '../../../hooks/useForm';
 import { FormContext } from './FormContext';
 
+import './Form.scss';
+
 function Form({ children, initialValue, onSubmit, submitLabel }) {
   const [form, onChange] = useForm(initialValue);
 
@@ -25,13 +27,15 @@ function Form({ children, initialValue, onSubmit, submitLabel }) {
   };
 
   return (
-    <form action="" onSubmit={submitForm}>
+    <form className="form" action="" onSubmit={submitForm}>
       <FormContext.Provider value={{ form, onChange }}>
         {children}
       </FormContext.Provider>
-      <Button type="submit" className="secondary" disabled={!canSubmit()}>
-        {submitLabel}
-      </Button>
+      <div className="form-field">
+        <Button type="submit" className="secondary" disabled={!canSubmit()}>
+          {submitLabel}
+        </Button>
+      </div>
     </form>
   );
 }

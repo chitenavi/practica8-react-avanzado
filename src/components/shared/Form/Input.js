@@ -36,7 +36,7 @@ const InputCustom = ({ type, name }) => {
     }
   };
 
-  return <div className="formField">{renderContent()}</div>;
+  return <div className="form-field">{renderContent()}</div>;
 };
 
 InputCustom.propTypes = {

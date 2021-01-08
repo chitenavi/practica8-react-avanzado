@@ -23,7 +23,7 @@ function LoginPage({ onLogin, loading, error }) {
 
   const handleSubmit = data => {
     console.log(data);
-    // onLogin(data);
+    onLogin(data);
   };
 
   return (
