@@ -35,8 +35,11 @@ export const deleteAdvert = advertId => {
   return client.delete(url);
 };
 
-export const createAdvert = data => {
+export const createAdvert = async data => {
   const url = `${adverstUrl}`;
   const headers = { 'Content-Type': 'multipart/form-data' };
-  return client.post(url, data, headers);
+  const newAd = await client.post(url, data, headers);
+  newAd.photo = `/images/anuncios/${newAd.photo}`;
+
+  return newAd;
 };

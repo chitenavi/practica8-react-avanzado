@@ -9,6 +9,7 @@ import Button from '../../shared/Button';
 import ModalConfirm from '../../shared/ModalConfirm';
 import ErrorMessage from '../../errors/ErrorMessage';
 import { getAdvertById } from '../../../store/selectors';
+import { advertsConfig } from '../../../config';
 import './AdvertDetailPage.scss';
 
 function AdvertDetailPage({ onDelete, error, loading }) {
@@ -36,7 +37,7 @@ function AdvertDetailPage({ onDelete, error, loading }) {
             <img
               src={
                 advert.photo
-                  ? `${advert.photoUrl}`
+                  ? `${advertsConfig.apiUrl}${advert.photo}`
                   : 'http://via.placeholder.com/600x400?text=No+Image'
               }
               alt={advert.name}
