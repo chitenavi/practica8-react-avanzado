@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import storage from '../../../utils/storage';
 
 import MainLayout from '../../layout/MainLayout';
-import FilterForm from '../../shared/FilterForm';
+import { Form, InputCustom } from '../../shared/Form';
 import AdvertCard from '../../adverts/AdvertCard';
 import ErrorMessage from '../../errors/ErrorMessage';
 import Spinner from '../../shared/Spinner';
@@ -36,13 +36,9 @@ const AdvertsPage = ({ loading, error }) => {
         storage.remove('userFilterForm');
       }
       setFilter(form);
+      dispatch(loadAdverts(form));
     }
   };
-
-  useEffect(() => {
-    dispatch(loadAdverts(filter));
-    return () => {};
-  }, [filter]);
 
   const renderContent = () => {
     if (error) {
@@ -54,18 +50,16 @@ const AdvertsPage = ({ loading, error }) => {
       );
     }
 
-    // if (!adverts) return null;
-
     if (adverts.length === 0) {
       return (
         <div className="advertsPage-content--noads">
           {filter === advertsConfig.defaultFilter ? (
-            <>
+            <div>
               <h3>There are no ads!, create one...</h3>
               <Link to="/adverts/new">
                 <Button className="primary">New Advert</Button>
               </Link>
-            </>
+            </div>
           ) : (
             <div>
               <h3>Sorry, there are no ads with that filter...</h3>
@@ -74,6 +68,7 @@ const AdvertsPage = ({ loading, error }) => {
                   setResetFilter(Date.now());
                   storage.remove('userFilterForm');
                   setFilter(advertsConfig.defaultFilter);
+                  dispatch(loadAdverts());
                 }}
                 className="primary"
               >
@@ -103,11 +98,17 @@ const AdvertsPage = ({ loading, error }) => {
     <MainLayout title="Adverts">
       <div className="advertsPage">
         <div className="advertsPage-filter">
-          <FilterForm
+          <Form
             key={resetFilter}
-            userFilter={filter}
+            initialValue={filter}
             onSubmit={handleSubmit}
-          />
+            submitLabel="Apply Filter"
+          >
+            <InputCustom type="text" name="name" placeholder="Advert name" />
+            <InputCustom type="radioGroup" name="type" />
+            <InputCustom type="sliderRange" name="price" />
+            <InputCustom type="selectTags" name="tags" />
+          </Form>
         </div>
         <div className="advertsPage-content">
           {loading ? <Spinner /> : renderContent()}

@@ -1,5 +1,3 @@
-import { advertsConfig } from '../config';
-
 export const getAuthUser = state => state.auth;
 
 export const getIsLoggedUser = state => state.auth.isLogged;
@@ -23,10 +21,7 @@ export const getAdverts = state => {
 };
 
 export const getAdvertById = advertId => state => {
-  const ad = state.adverts.ads.find(adv => adv._id === advertId);
-
-  ad.photoUrl = `${advertsConfig.apiUrl}${ad.photo}`;
-  return ad;
+  return state.adverts.ads.find(adv => adv._id === advertId);
 };
 
 export const getLocation = state => state.router.location;

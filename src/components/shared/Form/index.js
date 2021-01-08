@@ -1,4 +1,4 @@
 import Form from './Form';
-import InputCustom from './Input';
+import InputCustom from './InputCustom';
 
 export { Form, InputCustom };

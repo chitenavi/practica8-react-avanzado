@@ -17,12 +17,7 @@ function LoginPage({ onLogin, loading, error }) {
     validateFields: ['email', 'password'],
   };
 
-  // const canSubmit = () => {
-  //   return !loading && email && password;
-  // };
-
   const handleSubmit = data => {
-    console.log(data);
     onLogin(data);
   };
 
@@ -34,9 +29,13 @@ function LoginPage({ onLogin, loading, error }) {
           onSubmit={handleSubmit}
           submitLabel="Log In"
         >
-          <InputCustom type="email" name="email" />
-          <InputCustom type="password" name="password" />
-          <InputCustom type="checkbox" name="remcredentials" />
+          <InputCustom type="email" name="email" placeholder="Your email" />
+          <InputCustom
+            type="password"
+            name="password"
+            placeholder="Your password"
+          />
+          <InputCustom type="checkboxCred" name="remcredentials" />
         </Form>
         {loading && <ModalLoader />}
         {error && (

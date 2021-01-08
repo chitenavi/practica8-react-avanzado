@@ -1,6 +1,6 @@
 @import '../../../scss/variables';
 
-.formNewAd {
+.newAdPage .form {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -11,21 +11,17 @@
   border-radius: 1rem;
   padding: 1rem;
 
-  &-group {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    text-align: center;
-  }
+  // &-group {
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: space-between;
+  //   text-align: center;
+  // }
 
-  &-field {
+  & .form-field {
     &--label {
       font-size: 1.1rem;
       margin-right: 0.2rem;
-    }
-
-    &.centered {
-      text-align: center;
     }
 
     &--img {
@@ -36,6 +32,10 @@
   &-error {
     margin-top: 1rem;
     text-align: center;
+  }
+
+  &-button {
+    margin: 0 auto;
   }
 }
 

@@ -5,12 +5,16 @@ import {
   AUTH_LOGOUT,
   UI_SET_NOTIFICATION,
   UI_REMOVE_NOTIFICATION,
-  ADVERTS_API_REQUEST,
-  ADVERTS_API_FAILURE,
   ADVERTS_TAGS_LOADED,
-  ADVERTS_LOAD_ADS_SUCCESS,
+  ADVERTS_LOAD_REQUEST,
+  ADVERTS_LOAD_SUCCESS,
+  ADVERTS_LOAD_FAILURE,
+  ADVERTS_DELETE_REQUEST,
   ADVERTS_DELETE_SUCCESS,
+  ADVERTS_DELETE_FAILURE,
+  ADVERTS_CREATE_REQUEST,
   ADVERTS_CREATE_SUCCESS,
+  ADVERTS_CREATE_FAILURE,
 } from './types';
 
 /** UI ACTIONS */
@@ -43,25 +47,52 @@ export const showFlashNotification = (
 };
 
 /** ADVERTS ACTIONS */
-export const advertsApiRequest = () => ({
-  type: ADVERTS_API_REQUEST,
+export const advertsLoadRequest = () => ({
+  type: ADVERTS_LOAD_REQUEST,
+});
+export const advertsCreateRequest = () => ({
+  type: ADVERTS_CREATE_REQUEST,
+});
+export const advertsDeleteRequest = () => ({
+  type: ADVERTS_DELETE_REQUEST,
 });
 
-export const advertsApiFailure = error => ({
-  type: ADVERTS_API_FAILURE,
+export const advertsLoadFailure = error => ({
+  type: ADVERTS_LOAD_FAILURE,
   error: true,
   payload: error,
+});
+export const advertsCreateFailure = error => ({
+  type: ADVERTS_CREATE_FAILURE,
+  error: true,
+  payload: error,
+});
+export const advertsDeleteFailure = error => ({
+  type: ADVERTS_DELETE_FAILURE,
+  error: true,
+  payload: error,
+});
+export const advertsLoadSuccess = ads => ({
+  type: ADVERTS_LOAD_SUCCESS,
+  payload: ads,
+});
+export const advertsCreateSuccess = ad => ({
+  type: ADVERTS_CREATE_SUCCESS,
+  payload: ad,
+});
+export const advertsDeleteSuccess = adId => ({
+  type: ADVERTS_DELETE_SUCCESS,
+  payload: adId,
 });
 
 export const tagsLoaded = tags => {
   return {
     type: ADVERTS_TAGS_LOADED,
-    payload: {
-      tags,
-    },
+    payload: tags,
   };
 };
 
+// THUNKS
 export const loadTags = () => {
   // eslint-disable-next-line func-names
   return async function (dispatch, getState, { api }) {
@@ -74,68 +105,52 @@ export const loadTags = () => {
   };
 };
 
-export const advertsLoadSuccess = ads => ({
-  type: ADVERTS_LOAD_ADS_SUCCESS,
-  payload: {
-    ads,
-  },
-});
-
 export const loadAdverts = formFilter => {
   // eslint-disable-next-line func-names
   return async function (dispatch, getState, { api }) {
-    dispatch(advertsApiRequest());
+    dispatch(advertsLoadRequest());
     try {
       const { rows: ads } = await api.adverts.getAdverts(formFilter);
       dispatch(advertsLoadSuccess(ads));
     } catch (error) {
-      dispatch(advertsApiFailure(error));
+      dispatch(advertsLoadFailure(error));
     }
   };
 };
 
-export const advertDeleteSuccess = () => ({
-  type: ADVERTS_DELETE_SUCCESS,
-});
-
 export const deleteAdvert = advertId => {
   // eslint-disable-next-line func-names
   return async function (dispatch, getState, { history, api }) {
-    dispatch(advertsApiRequest());
+    dispatch(advertsDeleteRequest());
     try {
       await api.adverts.deleteAdvert(advertId);
 
-      await dispatch(advertDeleteSuccess());
+      await dispatch(advertsDeleteSuccess(advertId));
       await dispatch(
         showFlashNotification('success', 'Advert deleted successfuly!'),
       );
       history.push('/adverts');
     } catch (error) {
-      await dispatch(advertsApiFailure(error));
+      await dispatch(advertsDeleteFailure(error));
       await dispatch(showFlashNotification('error', 'Advert was not deleted!'));
     }
   };
 };
 
-export const advertCreateSuccess = () => ({
-  type: ADVERTS_CREATE_SUCCESS,
-});
-
 export const createAdvert = advertData => {
   // eslint-disable-next-line func-names
   return async function (dispatch, getState, { history, api }) {
-    dispatch(advertsApiRequest());
+    dispatch(advertsCreateRequest());
     try {
       const newAd = await api.adverts.createAdvert(advertData);
 
-      await dispatch(advertCreateSuccess());
+      await dispatch(advertsCreateSuccess(newAd));
       await dispatch(
         showFlashNotification('success', 'Advert created successfuly!'),
       );
-      await dispatch(loadAdverts());
       history.push(`/advert/${newAd._id}`);
     } catch (error) {
-      await dispatch(advertsApiFailure(error));
+      await dispatch(advertsCreateFailure(error));
       await dispatch(showFlashNotification('error', 'Advert was not created!'));
     }
   };
