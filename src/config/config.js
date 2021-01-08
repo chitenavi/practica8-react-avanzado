@@ -9,7 +9,8 @@ export const getPreloadedState = async () => {
     try {
       setupTokenClient(initialUserAuthToken);
       const tags = await getAllTags();
-      const { rows: ads } = await getAdverts();
+      const initialFilter = storage.get('userFilterForm');
+      const { rows: ads } = await getAdverts(initialFilter);
       return { auth: { isLogged: true }, adverts: { tags, ads } };
     } catch (error) {
       return { ui: { error } };

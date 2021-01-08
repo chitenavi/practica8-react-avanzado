@@ -84,10 +84,7 @@ const NewAdvertPage = ({ onCreate, error, loading }) => {
         <div className="formNewAd-field centered">
           <FileImageLoad
             label="Select a single image file"
-            onFileSelect={file => {
-              // console.log(URL.createObjectURL(file));
-              setSelectedFile(file);
-            }}
+            onFileSelect={file => setSelectedFile(file)}
           />
         </div>
 

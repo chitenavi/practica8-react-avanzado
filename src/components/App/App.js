@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import LoginPage from '../auth/LoginPage';
+import LoginPageF from '../auth/LoginPage/LoginPageRefact';
 import PrivateRoute from '../auth/PrivateRoute';
 import AdvertsPage from '../pages/AdvertsPage';
 import AdvertDetailPage from '../pages/AdvertDetailPage';

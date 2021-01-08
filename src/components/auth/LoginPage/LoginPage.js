@@ -57,11 +57,7 @@ function LoginPage({ onLogin, loading, error }) {
                 type="checkbox"
                 id="remember"
                 name="remcredentials"
-                onChange={ev => {
-                  onChange({
-                    target: { name: ev.target.name, value: ev.target.checked },
-                  });
-                }}
+                onChange={onChange}
                 checked={remcredentials}
               />
               Remember credentials
