@@ -11,12 +11,25 @@ function Form({ children, initialValue, onSubmit, submitLabel }) {
     ev.preventDefault();
     onSubmit(form);
   };
+
+  const canSubmit = () => {
+    if (!form.validateFields) return true;
+    let canSub = true;
+    for (let i = 0; i < form.validateFields.length; i += 1) {
+      if (!form[form.validateFields[i]]) {
+        canSub = false;
+        break;
+      }
+    }
+    return canSub;
+  };
+
   return (
     <form action="" onSubmit={submitForm}>
       <FormContext.Provider value={{ form, onChange }}>
         {children}
       </FormContext.Provider>
-      <Button type="submit" className="secondary">
+      <Button type="submit" className="secondary" disabled={!canSubmit()}>
         {submitLabel}
       </Button>
     </form>

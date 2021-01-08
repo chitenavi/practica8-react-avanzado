@@ -30,6 +30,7 @@ const InputCustom = ({ type, name }) => {
             name={name}
             value={form[name]}
             onChange={onChange}
+            placeholder={name}
           />
         );
     }

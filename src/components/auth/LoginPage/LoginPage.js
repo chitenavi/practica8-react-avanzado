@@ -4,71 +4,40 @@ import PropTypes from 'prop-types';
 import MainLayout from '../../layout/MainLayout';
 import ModalLoader from '../../shared/ModalLoader';
 import ErrorMessage from '../../errors/ErrorMessage';
-import Button from '../../shared/Button/Button';
-import useForm from '../../../hooks/useForm';
+
+import { Form, InputCustom } from '../../shared/Form';
 
 import './LoginPage.scss';
 
 function LoginPage({ onLogin, loading, error }) {
-  const [form, onChange] = useForm({
+  const formLogin = {
     email: '',
     password: '',
     remcredentials: false,
-  });
-
-  const { email, password, remcredentials } = form;
-
-  const canSubmit = () => {
-    return !loading && email && password;
+    validateFields: ['email', 'password'],
   };
 
-  const handleSubmit = ev => {
-    const credentials = form;
-    ev.preventDefault();
-    onLogin(credentials);
+  // const canSubmit = () => {
+  //   return !loading && email && password;
+  // };
+
+  const handleSubmit = data => {
+    console.log(data);
+    // onLogin(data);
   };
 
   return (
     <MainLayout title="Welcome to Nodepop SPA">
       <div className="loginPage">
-        <form onSubmit={handleSubmit} className="formLogin">
-          <div className="formLogin-field">
-            <input
-              type="text"
-              onChange={onChange}
-              name="email"
-              value={email}
-              placeholder="email"
-            />
-          </div>
-          <div className="formLogin-field">
-            <input
-              type="password"
-              onChange={onChange}
-              value={password}
-              name="password"
-              placeholder="password"
-            />
-          </div>
-
-          <div className="formLogin-field">
-            <label htmlFor="remember">
-              <input
-                type="checkbox"
-                id="remember"
-                name="remcredentials"
-                onChange={onChange}
-                checked={remcredentials}
-              />
-              Remember credentials
-            </label>
-          </div>
-          <div className="formLogin-field">
-            <Button type="submit" className="secondary" disabled={!canSubmit()}>
-              Log in
-            </Button>
-          </div>
-        </form>
+        <Form
+          initialValue={formLogin}
+          onSubmit={handleSubmit}
+          submitLabel="Log In"
+        >
+          <InputCustom type="email" name="email" />
+          <InputCustom type="password" name="password" />
+          <InputCustom type="checkbox" name="remcredentials" />
+        </Form>
         {loading && <ModalLoader />}
         {error && (
           <ErrorMessage className="loginPage-error" message={error.message} />
