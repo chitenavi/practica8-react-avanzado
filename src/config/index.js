@@ -1,3 +1,8 @@
-import { getPreloadedState, advertsConfig } from './config';
+import {
+  getPreloadedState,
+  advertsConfig,
+  formLogin,
+  formNewAd,
+} from './config';
 
-export { getPreloadedState, advertsConfig };
+export { getPreloadedState, advertsConfig, formLogin, formNewAd };

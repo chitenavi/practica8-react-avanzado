@@ -28,3 +28,19 @@ export const advertsConfig = {
     tags: [],
   },
 };
+
+export const formLogin = {
+  email: '',
+  password: '',
+  remcredentials: false,
+  validateFields: ['email', 'password'],
+};
+
+export const formNewAd = {
+  name: '',
+  sale: true,
+  tags: [],
+  price: 0,
+  file: null,
+  validateFields: ['name', 'tags', 'price'],
+};
