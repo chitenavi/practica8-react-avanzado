@@ -5,7 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import storage from '../../../utils/storage';
 
 import MainLayout from '../../layout/MainLayout';
-import { Form, InputCustom } from '../../shared/Form';
+import {
+  Form,
+  InputCustom,
+  SliderRangeCustom,
+  RadioGroup,
+  SelectCustom,
+} from '../../shared/Form';
 import AdvertCard from '../../adverts/AdvertCard';
 import ErrorMessage from '../../errors/ErrorMessage';
 import Spinner from '../../shared/Spinner';
@@ -105,9 +111,14 @@ const AdvertsPage = ({ loading, error }) => {
             submitLabel="Apply Filter"
           >
             <InputCustom type="text" name="name" placeholder="Advert name" />
-            <InputCustom type="radioGroup" name="type" />
-            <InputCustom type="sliderRange" name="price" />
-            <InputCustom type="selectTags" name="tags" />
+            <RadioGroup
+              label="Type"
+              name="type"
+              options={['sale', 'buy', 'all']}
+              className="centered"
+            />
+            <SliderRangeCustom label="Price range" name="price" />
+            <SelectCustom name="tags" placeholder="Select tags" />
           </Form>
         </div>
         <div className="advertsPage-content">

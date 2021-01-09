@@ -11,17 +11,21 @@
   border-radius: 1rem;
   padding: 1rem;
 
-  // &-group {
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: space-between;
-  //   text-align: center;
-  // }
-
   & .form-field {
     &--label {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       margin-right: 0.2rem;
+    }
+
+    &--group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+    }
+
+    &.centered {
+      text-align: center;
     }
 
     &--img {

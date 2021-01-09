@@ -5,18 +5,12 @@ import MainLayout from '../../layout/MainLayout';
 import ModalLoader from '../../shared/ModalLoader';
 import ErrorMessage from '../../errors/ErrorMessage';
 
-import { Form, InputCustom } from '../../shared/Form';
+import { Form, InputCustom, CheckboxCustom } from '../../shared/Form';
+import { formLogin } from '../../../config';
 
 import './LoginPage.scss';
 
 function LoginPage({ onLogin, loading, error }) {
-  const formLogin = {
-    email: '',
-    password: '',
-    remcredentials: false,
-    validateFields: ['email', 'password'],
-  };
-
   const handleSubmit = data => {
     onLogin(data);
   };
@@ -35,7 +29,7 @@ function LoginPage({ onLogin, loading, error }) {
             name="password"
             placeholder="Your password"
           />
-          <InputCustom type="checkboxCred" name="remcredentials" />
+          <CheckboxCustom label="Remember Credentials" name="remcredentials" />
         </Form>
         {loading && <ModalLoader />}
         {error && (

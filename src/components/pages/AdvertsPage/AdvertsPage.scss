@@ -12,6 +12,27 @@
     box-shadow: $shadow-primary;
     border-radius: 1rem;
     padding: 1rem;
+
+    & .form {
+      width: 400px;
+
+      &-field {
+        margin-bottom: 0.7rem;
+
+        &.centered {
+          text-align: center;
+        }
+
+        &--label {
+          font-size: 1.3rem;
+          margin-right: 0.2rem;
+        }
+      }
+
+      &-button {
+        text-align: center;
+      }
+    }
   }
 
   &-content {

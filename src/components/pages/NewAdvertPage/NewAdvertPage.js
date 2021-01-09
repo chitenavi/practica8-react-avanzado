@@ -1,55 +1,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Alert } from 'antd';
-import { Form, InputCustom } from '../../shared/Form';
+import {
+  Form,
+  InputCustom,
+  SelectCustom,
+  InputImage,
+  RadioGroup,
+} from '../../shared/Form';
 import MainLayout from '../../layout/MainLayout';
 import ModalLoader from '../../shared/ModalLoader';
+import ErrorMessage from '../../errors/ErrorMessage';
+import { formNewAd } from '../../../config';
 
 import './NewAdvertPage.scss';
 
 const NewAdvertPage = ({ onCreate, error, loading }) => {
-  const formNewAd = {
-    name: '',
-    sale: true,
-    tags: [],
-    price: 0,
-    file: null,
-    validateFields: ['name', 'tags', 'price'],
-  };
-
   const onSubmitForm = data => {
     const formData = new FormData();
-    // Object.keys(form).forEach(key => {
-    //   if (key === 'tags') tags.forEach(val => formData.append(key, val));
-    //   else formData.append(key, form[key]);
-    // });
+    Object.keys(data).forEach(key => {
+      if (key !== 'file' && key !== 'validateFields') {
+        if (key === 'tags') data[key].forEach(val => formData.append(key, val));
+        else formData.append(key, data[key]);
+      }
+    });
 
     if (data.file) formData.append('photo', data.file);
 
-    // onCreate(formData);
+    onCreate(formData);
   };
 
   return (
     <MainLayout title="New Advert">
       <div className="newAdPage">
+        {loading && <ModalLoader />}
         <Form
           method="POST"
           encType="multipart/form-data"
           onSubmit={onSubmitForm}
           initialValue={formNewAd}
-          submitLabel="Create Advert"
+          submitLabel="Create Ad"
         >
           <InputCustom type="text" name="name" placeholder="Advert name" />
-          <InputCustom type="numberPrice" name="price" />
-          <InputCustom type="radioTwo" name="sale" />
-          <InputCustom type="selectTags" name="tags" />
-          <InputCustom type="fileImage" name="file" />
-        </Form>
-        {loading && <ModalLoader />}
-        {error && (
-          <div className="newAdPage-error">
-            <Alert message={error.message} type="error" />
+          <div className="form-field--group">
+            <InputCustom type="price" name="price" />
+            <RadioGroup label="Type" name="sale" options={['sale', 'buy']} />
           </div>
+          <SelectCustom placeholder="Select Tags" name="tags" />
+          <InputImage name="file" className="centered" />
+        </Form>
+        {error && (
+          <ErrorMessage message={error.message} className="newAdPage-error" />
         )}
       </div>
     </MainLayout>
