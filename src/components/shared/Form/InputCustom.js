@@ -1,99 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input, Slider, Checkbox, Radio, InputNumber } from 'antd';
-import FileImageLoad from '../FileImageLoad';
+import classNames from 'classnames';
+import { Input, InputNumber } from 'antd';
 import { useFormContext } from './FormContext';
-import SelectTags from '../SelectTags';
 
-const InputCustom = ({ type, name, placeholder }) => {
+const InputCustom = ({ type, name, placeholder, className }) => {
   const { form, onChange } = useFormContext();
 
   const renderContent = () => {
     switch (type) {
-      case 'selectTags':
-        return <SelectTags onChange={onChange} defaultTags={form[name]} />;
-      case 'sliderRange':
+      case 'price':
         return (
           <div>
-            <span className="form-field--label">
-              Price: {`${form[name][0]}€ - ${form[name][1]}€`}
-            </span>
-            <Slider
-              onChange={value => {
-                onChange({ target: { value, name: 'price' } });
-              }}
-              range
-              min={1}
-              max={10000}
-              defaultValue={form[name]}
-            />
-          </div>
-        );
-      case 'radioGroup':
-        return (
-          <div>
-            <span className="form-field--label">Type: </span>
-            <Radio.Group name={name} onChange={onChange} value={form[name]}>
-              <Radio style={{ color: 'white' }} value="sale">
-                Sale
-              </Radio>
-              <Radio style={{ color: 'white' }} value="buy">
-                Buy
-              </Radio>
-              <Radio style={{ color: 'white' }} value="all">
-                All
-              </Radio>
-            </Radio.Group>
-          </div>
-        );
-      case 'checkboxCred':
-        return (
-          <Checkbox
-            style={{ color: 'white' }}
-            name={name}
-            checked={form[name]}
-            onChange={onChange}
-          >
-            Remember Credentials
-          </Checkbox>
-        );
-      case 'radioTwo':
-        return (
-          <div>
-            <span className="form-field--label">Type: </span>
-            <Radio.Group name={name} onChange={onChange} value={form[name]}>
-              <Radio style={{ color: 'white' }} value>
-                Sale
-              </Radio>
-              <Radio style={{ color: 'white' }} value={false}>
-                Buy
-              </Radio>
-            </Radio.Group>
-          </div>
-        );
-      case 'numberPrice':
-        return (
-          <div>
-            <span className="form-field--label">Price: </span>
+            <span className="form-field--label">{`${type[0].toUpperCase()}${type.slice(
+              1,
+            )}: `}</span>
             <InputNumber
               name={name}
               onChange={value => {
-                onChange({ target: { value, name: 'price' } });
+                onChange({ target: { value, name } });
               }}
               min={0}
               max={10000}
               value={form[name]}
             />
           </div>
-        );
-      case 'fileImage':
-        return (
-          <FileImageLoad
-            label="Select a single image file"
-            onFileSelect={file => {
-              form[name] = file;
-            }}
-          />
         );
       default:
         return (
@@ -108,17 +39,21 @@ const InputCustom = ({ type, name, placeholder }) => {
     }
   };
 
-  return <div className="form-field">{renderContent()}</div>;
+  return (
+    <div className={classNames('form-field', className)}>{renderContent()}</div>
+  );
 };
 
 InputCustom.propTypes = {
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
+  className: PropTypes.string,
 };
 
 InputCustom.defaultProps = {
-  placeholder: null,
+  placeholder: '',
+  className: '',
 };
 
 export default InputCustom;

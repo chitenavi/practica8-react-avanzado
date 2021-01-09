@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Select } from 'antd';
 import { getTags } from '../../../store/selectors';
 
-function SelectTags({ onChange, defaultTags }) {
+function SelectTags({ onChange, defaultTags, placeholder }) {
   const { Option } = Select;
   const tags = useSelector(getTags);
 
@@ -16,7 +16,7 @@ function SelectTags({ onChange, defaultTags }) {
       mode="tags"
       style={{ width: '100%' }}
       defaultValue={defaultTags}
-      placeholder="Select tags"
+      placeholder={placeholder}
     >
       {tags && tags.map(tag => <Option key={tag}>{tag}</Option>)}
     </Select>
@@ -26,6 +26,11 @@ function SelectTags({ onChange, defaultTags }) {
 SelectTags.propTypes = {
   onChange: PropTypes.func.isRequired,
   defaultTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  placeholder: PropTypes.string,
+};
+
+SelectTags.defaultProps = {
+  placeholder: '',
 };
 
 export default SelectTags;
