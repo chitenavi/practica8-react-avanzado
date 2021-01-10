@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import storage from '../../../utils/storage';
 
 import MainLayout from '../../layout/MainLayout';
-import {
-  Form,
+import Form, {
   InputCustom,
   SliderRangeCustom,
   RadioGroup,

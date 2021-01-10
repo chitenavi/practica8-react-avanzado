@@ -5,7 +5,7 @@ import MainLayout from '../../layout/MainLayout';
 import ModalLoader from '../../shared/ModalLoader';
 import ErrorMessage from '../../errors/ErrorMessage';
 
-import { Form, InputCustom, CheckboxCustom } from '../../shared/Form';
+import Form, { InputCustom, CheckboxCustom } from '../../shared/Form';
 import { formLogin } from '../../../config';
 
 import './LoginPage.scss';

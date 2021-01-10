@@ -20,7 +20,6 @@ export const getAdvertDetail = advertId => {
   const url = `${adverstUrl}/${advertId}`;
   return client.get(url).then(response => {
     response.photoUrl = `${apiUrl}${response.photo}`;
-    // console.log(response);
     return response;
   });
 };
@@ -39,7 +38,10 @@ export const createAdvert = async data => {
   const url = `${adverstUrl}`;
   const headers = { 'Content-Type': 'multipart/form-data' };
   const newAd = await client.post(url, data, headers);
-  newAd.photo = `/images/anuncios/${newAd.photo}`;
+
+  if (newAd.photo) {
+    newAd.photo = `/images/anuncios/${newAd.photo}`;
+  }
 
   return newAd;
 };

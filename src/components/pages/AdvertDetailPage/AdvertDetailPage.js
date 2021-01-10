@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-
 import { useSelector } from 'react-redux';
+
 import MainLayout from '../../layout/MainLayout';
 import ModalLoader from '../../shared/ModalLoader';
 import Button from '../../shared/Button';
@@ -10,6 +10,7 @@ import ModalConfirm from '../../shared/ModalConfirm';
 import ErrorMessage from '../../errors/ErrorMessage';
 import { getAdvertById } from '../../../store/selectors';
 import { advertsConfig } from '../../../config';
+
 import './AdvertDetailPage.scss';
 
 function AdvertDetailPage({ onDelete, error, loading }) {

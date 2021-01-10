@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Input, InputNumber } from 'antd';
+
 import { useFormContext } from './FormContext';
 
 const InputCustom = ({ type, name, placeholder, className }) => {

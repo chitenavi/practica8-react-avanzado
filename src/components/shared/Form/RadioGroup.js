@@ -8,6 +8,7 @@ const RadioGroup = ({ name, label, className, options }) => {
   const { form, onChange } = useFormContext();
 
   const renderContent = () => {
+    if (options.length <= 1) return null;
     if (options.length === 2) {
       return (
         <>
@@ -29,12 +30,14 @@ const RadioGroup = ({ name, label, className, options }) => {
   };
 
   return (
-    <div className={classNames('form-field', className)}>
-      <span className="form-field--label">{label}: </span>
-      <Radio.Group name={name} onChange={onChange} value={form[name]}>
-        {renderContent()}
-      </Radio.Group>
-    </div>
+    options && (
+      <div className={classNames('form-field', className)}>
+        <span className="form-field--label">{label}: </span>
+        <Radio.Group name={name} onChange={onChange} value={form[name]}>
+          {renderContent()}
+        </Radio.Group>
+      </div>
+    )
   );
 };
 

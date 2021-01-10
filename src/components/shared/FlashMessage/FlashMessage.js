@@ -37,6 +37,7 @@ const AlertContainer = styled.div`
   justify-content: center;
   align-items: center;
   animation: ${popanimation} 2s ease-in-out;
+  z-index: 9998;
 `;
 
 const FlashMessage = ({ notification }) => {
@@ -46,6 +47,7 @@ const FlashMessage = ({ notification }) => {
   return (
     <AlertContainer>
       <Alert
+        style={{ zIndex: 9999 }}
         message={type.toUpperCase()}
         description={message}
         type={type}

@@ -34,6 +34,7 @@ export const uiRemoveFlash = () => {
   };
 };
 
+// UI THUNKS
 export const showFlashNotification = (
   type,
   message,
@@ -92,7 +93,7 @@ export const tagsLoaded = tags => {
   };
 };
 
-// THUNKS
+// ADVERTS THUNKS
 export const loadTags = () => {
   // eslint-disable-next-line func-names
   return async function (dispatch, getState, { api }) {
@@ -172,6 +173,13 @@ export const authLoginSuccess = auth => ({
   payload: auth,
 });
 
+export const authLogout = () => {
+  return {
+    type: AUTH_LOGOUT,
+  };
+};
+
+// AUTH THUNKS
 export const login = crendentials => {
   // eslint-disable-next-line func-names
   return async function (dispatch, getState, { history, api }) {
@@ -190,12 +198,6 @@ export const login = crendentials => {
       await dispatch(showFlashNotification('error', `${error.message}!`));
       dispatch(authLoginFailure(error));
     }
-  };
-};
-
-export const authLogout = () => {
-  return {
-    type: AUTH_LOGOUT,
   };
 };
 

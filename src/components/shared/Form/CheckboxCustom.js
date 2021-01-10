@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Checkbox } from 'antd';
+
 import { useFormContext } from './FormContext';
 
 const CheckboxCustom = ({ name, label, className }) => {

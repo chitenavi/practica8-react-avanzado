@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Form,
+import Form, {
   InputCustom,
   SelectCustom,
   InputImage,

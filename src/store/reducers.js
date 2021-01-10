@@ -21,10 +21,8 @@ const defaultState = {
 export const auth = (state = defaultState.auth, action) => {
   switch (action.type) {
     case types.AUTH_LOGIN_SUCCESS:
-      // login
       return action.payload;
     case types.AUTH_LOGOUT:
-      // logout
       return { ...state, isLogged: false };
     default:
       return state;
@@ -38,7 +36,7 @@ export const ui = (state = defaultState.ui, action) => {
   if (action.type.includes('REQUEST')) {
     return { ...state, loading: true };
   }
-  if (action.type.includes('SUCCESS')) {
+  if (action.type.includes('SUCCESS') || action.type === types.AUTH_LOGOUT) {
     return { ...state, error: null, loading: false };
   }
   switch (action.type) {

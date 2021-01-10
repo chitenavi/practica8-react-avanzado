@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Select } from 'antd';
+
 import { getTags } from '../../../store/selectors';
 
 function SelectTags({ onChange, defaultTags, placeholder }) {

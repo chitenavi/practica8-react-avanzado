@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Slider } from 'antd';
+
 import { useFormContext } from './FormContext';
 
 const SliderRangeCustom = ({ name, label, min, max, className }) => {
