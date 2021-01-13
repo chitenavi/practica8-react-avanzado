@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import storage from '../../../utils/storage';
 
+import storage from '../../../utils/storage';
 import MainLayout from '../../layout/MainLayout';
 import Form, {
   InputCustom,
@@ -15,22 +14,17 @@ import AdvertCard from '../../adverts/AdvertCard';
 import ErrorMessage from '../../errors/ErrorMessage';
 import Spinner from '../../shared/Spinner';
 import Button from '../../shared/Button';
-import { loadAdverts } from '../../../store/actions';
-import { getAdverts } from '../../../store/selectors';
 import { advertsConfig } from '../../../config';
 
 import './AdvertsPage.scss';
 
-const AdvertsPage = ({ loading, error }) => {
+const AdvertsPage = ({ adverts, loading, error, loadAdverts }) => {
   const [resetFilter, setResetFilter] = useState(Date.now());
   const [filter, setFilter] = useState(
     storage.get('userFilterForm') || advertsConfig.defaultFilter,
   );
 
-  const adverts = useSelector(getAdverts);
-
-  const dispatch = useDispatch();
-
+  // TODO: Refact function to compare 2 forms in separate file
   const handleSubmit = form => {
     if (JSON.stringify(form) !== JSON.stringify(filter)) {
       if (
@@ -41,7 +35,7 @@ const AdvertsPage = ({ loading, error }) => {
         storage.remove('userFilterForm');
       }
       setFilter(form);
-      dispatch(loadAdverts(form));
+      loadAdverts(form);
     }
   };
 
@@ -73,7 +67,7 @@ const AdvertsPage = ({ loading, error }) => {
                   setResetFilter(Date.now());
                   storage.remove('userFilterForm');
                   setFilter(advertsConfig.defaultFilter);
-                  dispatch(loadAdverts());
+                  loadAdverts();
                 }}
                 className="primary"
               >
@@ -129,8 +123,10 @@ const AdvertsPage = ({ loading, error }) => {
 };
 
 AdvertsPage.propTypes = {
+  adverts: PropTypes.arrayOf(PropTypes.object).isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.objectOf(PropTypes.any),
+  loadAdverts: PropTypes.func.isRequired,
 };
 
 AdvertsPage.defaultProps = {
