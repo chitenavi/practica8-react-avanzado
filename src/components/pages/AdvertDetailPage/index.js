@@ -5,6 +5,7 @@ import { getUi } from '../../../store/selectors';
 import { deleteAdvert } from '../../../store/actions';
 
 const mapStateToProps = getUi;
+
 const mapDispatchToProps = dispatch => ({
   onDelete: advertId => dispatch(deleteAdvert(advertId)),
 });
