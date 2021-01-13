@@ -168,7 +168,7 @@ describe('showFlashNotification', () => {
   const thunkAction = showFlashNotification(type, message);
   const dispatch = jest.fn();
 
-  it('should dispatch an UI_SET_NOTIFICATION action with notification type and message', () => {
+  it('should dispatch an UI_SET_NOTIFICATION and UI_REMOVE_NOTIFICATION after 2 seconds', done => {
     thunkAction(dispatch);
 
     expect(dispatch).toHaveBeenNthCalledWith(1, {
@@ -178,8 +178,12 @@ describe('showFlashNotification', () => {
         message,
       },
     });
-    // expect(dispatch).toHaveBeenNthCalledWith(2, {
-    //   type: UI_REMOVE_NOTIFICATION,
-    // });
+
+    setTimeout(() => {
+      expect(dispatch).toHaveBeenNthCalledWith(2, {
+        type: UI_REMOVE_NOTIFICATION,
+      });
+      done();
+    }, 2000);
   });
 });
