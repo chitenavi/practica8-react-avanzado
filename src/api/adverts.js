@@ -39,10 +39,5 @@ export const createAdvert = async data => {
   const headers = { 'Content-Type': 'multipart/form-data' };
   const newAd = await client.post(url, data, headers);
 
-  // Same photo path as in the ad list
-  if (newAd.photo) {
-    newAd.photo = `/images/anuncios/${newAd.photo}`;
-  }
-
   return newAd;
 };

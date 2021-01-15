@@ -17,3 +17,7 @@ export const ADVERTS_DELETE_FAILURE = 'adverts/DELETE_FAILURE';
 export const ADVERTS_CREATE_REQUEST = 'adverts/CREATE_REQUEST';
 export const ADVERTS_CREATE_SUCCESS = 'adverts/CREATE_SUCCESS';
 export const ADVERTS_CREATE_FAILURE = 'adverts/CREATE_FAILURE';
+
+export const ADVERT_LOAD_DET_REQUEST = 'advert/LOAD_DET_REQUEST';
+export const ADVERT_LOAD_DET_SUCCESS = 'advert/LOAD_DET_SUCCESS';
+export const ADVERT_LOAD_DET_FAILURE = 'advert/LOAD_DET_FAILURE';

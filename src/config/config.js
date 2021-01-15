@@ -1,5 +1,4 @@
 import { setupTokenClient } from '../api/client';
-import { getAllTags, getAdverts } from '../api/adverts';
 import storage from '../utils/storage';
 
 export const getPreloadedState = async () => {
@@ -8,10 +7,7 @@ export const getPreloadedState = async () => {
   if (initialUserAuthToken) {
     try {
       setupTokenClient(initialUserAuthToken);
-      const tags = await getAllTags();
-      const initialFilter = storage.get('userFilterForm');
-      const { rows: ads } = await getAdverts(initialFilter);
-      return { auth: { isLogged: true }, adverts: { tags, ads } };
+      return { auth: { isLogged: true } };
     } catch (error) {
       return { ui: { error } };
     }

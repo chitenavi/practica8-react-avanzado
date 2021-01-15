@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import storage from '../../../utils/storage';
+import { storage, haveSameData } from '../../../utils';
+import { advertsConfig } from '../../../config';
 import MainLayout from '../../layout/MainLayout';
 import Form, {
   InputCustom,
@@ -14,22 +15,27 @@ import AdvertCard from '../../adverts/AdvertCard';
 import ErrorMessage from '../../errors/ErrorMessage';
 import Spinner from '../../shared/Spinner';
 import Button from '../../shared/Button';
-import { advertsConfig } from '../../../config';
 
 import './AdvertsPage.scss';
 
-const AdvertsPage = ({ adverts, loading, error, loadAdverts }) => {
+const AdvertsPage = ({ adverts, loading, error, loadAdverts, loadTags }) => {
   const [resetFilter, setResetFilter] = useState(Date.now());
   const [filter, setFilter] = useState(
     storage.get('userFilterForm') || advertsConfig.defaultFilter,
   );
 
-  // TODO: Refact function to compare 2 forms in separate file
+  useEffect(() => {
+    loadTags();
+    loadAdverts(filter);
+    return () => {
+      // eslint-disable-next-line no-console
+      console.log('cleanup');
+    };
+  }, []);
+
   const handleSubmit = form => {
-    if (JSON.stringify(form) !== JSON.stringify(filter)) {
-      if (
-        JSON.stringify(form) !== JSON.stringify(advertsConfig.defaultFilter)
-      ) {
+    if (!haveSameData(form, filter)) {
+      if (!haveSameData(form, advertsConfig.defaultFilter)) {
         storage.set('userFilterForm', form);
       } else {
         storage.remove('userFilterForm');
@@ -37,6 +43,13 @@ const AdvertsPage = ({ adverts, loading, error, loadAdverts }) => {
       setFilter(form);
       loadAdverts(form);
     }
+  };
+
+  const onClickReset = () => {
+    setResetFilter(Date.now());
+    storage.remove('userFilterForm');
+    setFilter(advertsConfig.defaultFilter);
+    loadAdverts();
   };
 
   const renderContent = () => {
@@ -48,6 +61,8 @@ const AdvertsPage = ({ adverts, loading, error, loadAdverts }) => {
         />
       );
     }
+
+    if (!adverts) return null;
 
     if (adverts.length === 0) {
       return (
@@ -62,15 +77,7 @@ const AdvertsPage = ({ adverts, loading, error, loadAdverts }) => {
           ) : (
             <div>
               <h3>Sorry, there are no ads with that filter...</h3>
-              <Button
-                onClick={() => {
-                  setResetFilter(Date.now());
-                  storage.remove('userFilterForm');
-                  setFilter(advertsConfig.defaultFilter);
-                  loadAdverts();
-                }}
-                className="primary"
-              >
+              <Button onClick={onClickReset} className="primary">
                 Reset Filter
               </Button>
             </div>
@@ -123,14 +130,16 @@ const AdvertsPage = ({ adverts, loading, error, loadAdverts }) => {
 };
 
 AdvertsPage.propTypes = {
-  adverts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  adverts: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool.isRequired,
   error: PropTypes.objectOf(PropTypes.any),
   loadAdverts: PropTypes.func.isRequired,
+  loadTags: PropTypes.func.isRequired,
 };
 
 AdvertsPage.defaultProps = {
   error: null,
+  adverts: null,
 };
 
 export default AdvertsPage;

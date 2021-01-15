@@ -15,6 +15,7 @@ const defaultState = {
   adverts: {
     tags: [],
     ads: null,
+    adDetail: null,
   },
 };
 
@@ -66,10 +67,14 @@ export const adverts = (state = defaultState.adverts, action) => {
       return { ...state, ads: action.payload };
     case types.ADVERTS_CREATE_SUCCESS:
       return { ...state, ads: [action.payload, ...state.ads] };
+    case types.ADVERT_LOAD_DET_SUCCESS:
+      return { ...state, adDetail: action.payload };
     case types.ADVERTS_DELETE_SUCCESS:
+      if (!state.ads) return { ...state, adDetail: null };
       return {
         ...state,
         ads: [...state.ads.filter(ad => ad._id !== action.payload)],
+        adDetail: null,
       };
     default:
       return state;

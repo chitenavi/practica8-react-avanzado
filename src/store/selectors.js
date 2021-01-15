@@ -5,9 +5,11 @@ export const getIsLoggedUser = state => state.auth.isLogged;
 export const getUi = state => state.ui;
 
 export const getTags = state => {
-  if (!state.adverts.tags) return null;
+  const { tags } = state.adverts;
 
-  return state.adverts.tags;
+  if (!tags) return null;
+
+  return tags;
 };
 
 export const getAdverts = state => {
@@ -21,7 +23,14 @@ export const getAdverts = state => {
 };
 
 export const getAdvertById = advertId => state => {
-  return state.adverts.ads.find(adv => adv._id === advertId);
+  const { ads } = state.adverts;
+
+  if (ads) {
+    return state.adverts.ads.find(adv => adv._id === advertId);
+  }
+  return null;
 };
+
+export const getAdvertDetail = state => state.adverts.adDetail;
 
 export const getLocation = state => state.router.location;

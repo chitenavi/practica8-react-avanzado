@@ -15,6 +15,9 @@ import {
   ADVERTS_CREATE_REQUEST,
   ADVERTS_CREATE_SUCCESS,
   ADVERTS_CREATE_FAILURE,
+  ADVERT_LOAD_DET_REQUEST,
+  ADVERT_LOAD_DET_SUCCESS,
+  ADVERT_LOAD_DET_FAILURE,
 } from './types';
 
 /** UI ACTIONS */
@@ -57,6 +60,9 @@ export const advertsCreateRequest = () => ({
 export const advertsDeleteRequest = () => ({
   type: ADVERTS_DELETE_REQUEST,
 });
+export const advertLoadDetRequest = () => ({
+  type: ADVERT_LOAD_DET_REQUEST,
+});
 
 export const advertsLoadFailure = error => ({
   type: ADVERTS_LOAD_FAILURE,
@@ -73,6 +79,12 @@ export const advertsDeleteFailure = error => ({
   error: true,
   payload: error,
 });
+export const advertLoadDetFailure = error => ({
+  type: ADVERT_LOAD_DET_FAILURE,
+  error: true,
+  payload: error,
+});
+
 export const advertsLoadSuccess = ads => ({
   type: ADVERTS_LOAD_SUCCESS,
   payload: ads,
@@ -84,6 +96,10 @@ export const advertsCreateSuccess = ad => ({
 export const advertsDeleteSuccess = adId => ({
   type: ADVERTS_DELETE_SUCCESS,
   payload: adId,
+});
+export const advertLoadDetSuccess = adDetail => ({
+  type: ADVERT_LOAD_DET_SUCCESS,
+  payload: adDetail,
 });
 
 export const tagsLoaded = tags => {
@@ -127,13 +143,11 @@ export const deleteAdvert = advertId => {
       await api.adverts.deleteAdvert(advertId);
 
       await dispatch(advertsDeleteSuccess(advertId));
-      await dispatch(
-        showFlashNotification('success', 'Advert deleted successfuly!'),
-      );
+      dispatch(showFlashNotification('success', 'Advert deleted successfuly!'));
       history.push('/adverts');
     } catch (error) {
       await dispatch(advertsDeleteFailure(error));
-      await dispatch(showFlashNotification('error', 'Advert was not deleted!'));
+      dispatch(showFlashNotification('error', 'Advert was not deleted!'));
     }
   };
 };
@@ -146,13 +160,25 @@ export const createAdvert = advertData => {
       const newAd = await api.adverts.createAdvert(advertData);
 
       await dispatch(advertsCreateSuccess(newAd));
-      await dispatch(
-        showFlashNotification('success', 'Advert created successfuly!'),
-      );
+      dispatch(showFlashNotification('success', 'Advert created successfuly!'));
       history.push(`/advert/${newAd._id}`);
     } catch (error) {
       await dispatch(advertsCreateFailure(error));
-      await dispatch(showFlashNotification('error', 'Advert was not created!'));
+      dispatch(showFlashNotification('error', 'Advert was not created!'));
+    }
+  };
+};
+
+export const loadAdvertDet = adId => {
+  // eslint-disable-next-line func-names
+  return async function (dispatch, getState, { api }) {
+    dispatch(advertLoadDetRequest());
+    try {
+      const adDetail = await api.adverts.getAdvertDetail(adId);
+      dispatch(advertLoadDetSuccess(adDetail));
+    } catch (error) {
+      await dispatch(advertsLoadFailure(error));
+      dispatch(showFlashNotification('error', error.message));
     }
   };
 };
@@ -190,13 +216,10 @@ export const login = crendentials => {
       dispatch(
         showFlashNotification('success', 'Hello!. Welcome to Nodepop SPA'),
       );
-      await dispatch(loadTags());
-      await dispatch(loadAdverts());
-
       history.push('/adverts');
     } catch (error) {
-      await dispatch(showFlashNotification('error', `${error.message}!`));
-      dispatch(authLoginFailure(error));
+      await dispatch(authLoginFailure(error));
+      dispatch(showFlashNotification('error', `${error.message}!`));
     }
   };
 };
