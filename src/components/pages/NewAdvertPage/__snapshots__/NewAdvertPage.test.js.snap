@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewAdvertPage snapshot before advert creation 1`] = `
+<MainLayout
+  title="New Advert"
+>
+  <div
+    className="newAdPage"
+  >
+    <Form
+      encType="multipart/form-data"
+      initialValue={
+        Object {
+          "file": null,
+          "name": "",
+          "price": 0,
+          "sale": true,
+          "tags": Array [],
+          "validateFields": Array [
+            "name",
+            "tags",
+            "price",
+          ],
+        }
+      }
+      method="POST"
+      onSubmit={[Function]}
+      submitLabel="Create Ad"
+    >
+      <InputCustom
+        className=""
+        name="name"
+        placeholder="Advert name"
+        type="text"
+      />
+      <div
+        className="form-field--group"
+      >
+        <InputCustom
+          className=""
+          name="price"
+          placeholder=""
+          type="price"
+        />
+        <RadioGroup
+          className=""
+          label="Type"
+          name="sale"
+          options={
+            Array [
+              "sale",
+              "buy",
+            ]
+          }
+        />
+      </div>
+      <SelectCustom
+        className=""
+        name="tags"
+        placeholder="Select Tags"
+      />
+      <SelectCustom
+        className="centered"
+        name="file"
+      />
+    </Form>
+  </div>
+</MainLayout>
+`;
+
+exports[`NewAdvertPage snapshot with error 1`] = `
+<MainLayout
+  title="New Advert"
+>
+  <div
+    className="newAdPage"
+  >
+    <Form
+      encType="multipart/form-data"
+      initialValue={
+        Object {
+          "file": null,
+          "name": "",
+          "price": 0,
+          "sale": true,
+          "tags": Array [],
+          "validateFields": Array [
+            "name",
+            "tags",
+            "price",
+          ],
+        }
+      }
+      method="POST"
+      onSubmit={[Function]}
+      submitLabel="Create Ad"
+    >
+      <InputCustom
+        className=""
+        name="name"
+        placeholder="Advert name"
+        type="text"
+      />
+      <div
+        className="form-field--group"
+      >
+        <InputCustom
+          className=""
+          name="price"
+          placeholder=""
+          type="price"
+        />
+        <RadioGroup
+          className=""
+          label="Type"
+          name="sale"
+          options={
+            Array [
+              "sale",
+              "buy",
+            ]
+          }
+        />
+      </div>
+      <SelectCustom
+        className=""
+        name="tags"
+        placeholder="Select Tags"
+      />
+      <SelectCustom
+        className="centered"
+        name="file"
+      />
+    </Form>
+    <ErrorMessage
+      className="newAdPage-error"
+      message="error"
+    />
+  </div>
+</MainLayout>
+`;

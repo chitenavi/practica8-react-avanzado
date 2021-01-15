@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginPage snapshot 1`] = `
+<MainLayout
+  title="Welcome to Nodepop SPA"
+>
+  <div
+    className="loginPage"
+  >
+    <Form
+      encType="application/x-www-form-urlencoded"
+      initialValue={
+        Object {
+          "email": "",
+          "password": "",
+          "remcredentials": false,
+          "validateFields": Array [
+            "email",
+            "password",
+          ],
+        }
+      }
+      method="GET"
+      onSubmit={[Function]}
+      submitLabel="Log In"
+    >
+      <InputCustom
+        className=""
+        name="email"
+        placeholder="Your email"
+        type="email"
+      />
+      <InputCustom
+        className=""
+        name="password"
+        placeholder="Your password"
+        type="password"
+      />
+      <CheckboxCustom
+        className=""
+        label="Remember Credentials"
+        name="remcredentials"
+      />
+    </Form>
+  </div>
+</MainLayout>
+`;
+
+exports[`LoginPage snapshot with error 1`] = `
+<MainLayout
+  title="Welcome to Nodepop SPA"
+>
+  <div
+    className="loginPage"
+  >
+    <Form
+      encType="application/x-www-form-urlencoded"
+      initialValue={
+        Object {
+          "email": "",
+          "password": "",
+          "remcredentials": false,
+          "validateFields": Array [
+            "email",
+            "password",
+          ],
+        }
+      }
+      method="GET"
+      onSubmit={[Function]}
+      submitLabel="Log In"
+    >
+      <InputCustom
+        className=""
+        name="email"
+        placeholder="Your email"
+        type="email"
+      />
+      <InputCustom
+        className=""
+        name="password"
+        placeholder="Your password"
+        type="password"
+      />
+      <CheckboxCustom
+        className=""
+        label="Remember Credentials"
+        name="remcredentials"
+      />
+    </Form>
+    <ErrorMessage
+      className="loginPage-error"
+      message="Error"
+    />
+  </div>
+</MainLayout>
+`;

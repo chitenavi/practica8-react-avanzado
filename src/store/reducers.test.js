@@ -9,7 +9,6 @@ import { adverts, ui } from './reducers';
 describe('adverts', () => {
   it('should handle a ADVERTS_TAGS_LOADED action', () => {
     const state = {
-      ads: null,
       tags: [],
     };
     const action = {
@@ -17,7 +16,6 @@ describe('adverts', () => {
       payload: ['mobile', 'work'],
     };
     const expectedState = {
-      ads: null,
       tags: ['mobile', 'work'],
     };
     expect(adverts(state, action)).toEqual(expectedState);

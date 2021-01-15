@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalConfirm snapshot 1`] = `
+<div
+  className="modalConfirm"
+>
+  <div
+    className="modalConfirm-dialog"
+  >
+    <h2
+      className="modalConfirm-dialog--title"
+    >
+      Modal
+    </h2>
+    <div
+      className="modalConfirm-dialog--content"
+    >
+      something
+    </div>
+    <div
+      className="modalConfirm-dialog--actions"
+    >
+      <Button
+        className="secondary"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        Cancel
+      </Button>
+      <Button
+        className="tertiary"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        Confirm
+      </Button>
+    </div>
+  </div>
+</div>
+`;

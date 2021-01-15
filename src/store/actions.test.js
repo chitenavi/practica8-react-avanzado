@@ -97,7 +97,7 @@ describe('login', () => {
 
     expect(dispatch).toHaveBeenNthCalledWith(1, { type: AUTH_LOGIN_REQUEST });
 
-    expect(dispatch).toHaveBeenNthCalledWith(3, {
+    expect(dispatch).toHaveBeenNthCalledWith(2, {
       type: AUTH_LOGIN_FAILURE,
       error: true,
       payload: error,

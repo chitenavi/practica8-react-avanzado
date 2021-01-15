@@ -1,29 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 import MainLayout from '../../layout/MainLayout';
 import ModalLoader from '../../shared/ModalLoader';
 import Button from '../../shared/Button';
 import ModalConfirm from '../../shared/ModalConfirm';
 import ErrorMessage from '../../errors/ErrorMessage';
-import { getAdvertById } from '../../../store/selectors';
-import { advertsConfig } from '../../../config';
 
 import './AdvertDetailPage.scss';
 
-function AdvertDetailPage({ onDelete, error, loading }) {
+function AdvertDetailPage({ loadDetail, advert, onDelete, error, loading }) {
   const { id } = useParams();
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = React.useState(false);
 
-  const advert = useSelector(getAdvertById(id));
+  React.useEffect(() => {
+    if (!advert) {
+      loadDetail(id);
+    } else if (advert._id !== id) loadDetail(id);
+
+    return () => {
+      // eslint-disable-next-line no-console
+      console.log('cleanup');
+    };
+  }, []);
 
   const renderContent = () => {
     if (error) {
       return (
-        <div className="adDelete">
-          <ErrorMessage className="adDelete-error" message={error.message} />
+        <div className="adError">
+          <ErrorMessage className="adError-error" message={error.message} />
         </div>
       );
     }
@@ -38,7 +44,7 @@ function AdvertDetailPage({ onDelete, error, loading }) {
             <img
               src={
                 advert.photo
-                  ? `${advertsConfig.apiUrl}${advert.photo}`
+                  ? `${advert.photoUrl}`
                   : 'http://via.placeholder.com/600x400?text=No+Image'
               }
               alt={advert.name}
@@ -94,10 +100,13 @@ AdvertDetailPage.propTypes = {
   loading: PropTypes.bool.isRequired,
   error: PropTypes.objectOf(PropTypes.any),
   onDelete: PropTypes.func.isRequired,
+  advert: PropTypes.objectOf(PropTypes.any),
+  loadDetail: PropTypes.func.isRequired,
 };
 
 AdvertDetailPage.defaultProps = {
   error: null,
+  advert: null,
 };
 
 export default AdvertDetailPage;
