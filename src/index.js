@@ -1,19 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import 'antd/dist/antd.css';
+import { createBrowserHistory } from 'history';
+
+import App, { Root } from './components/App';
+import configureStore from './store';
+import { getPreloadedState } from './config/config';
+
 import './scss/index.scss';
-import App from './components/App';
-import storage from './utils/storage';
-import { setupTokenClient } from './api/client';
 
-const initialToken = storage.get('userToken') || '';
+const render = async () => {
+  const preloadedState = await getPreloadedState();
+  const history = createBrowserHistory();
+  const store = configureStore(preloadedState, { history });
 
-setupTokenClient(initialToken);
+  ReactDOM.render(
+    <Root store={store} history={history}>
+      <App />
+    </Root>,
+    document.getElementById('root'),
+  );
+};
 
-ReactDOM.render(
-  <BrowserRouter>
-    <App initialToken={initialToken} />
-  </BrowserRouter>,
-  document.getElementById('root'),
-);
+render();

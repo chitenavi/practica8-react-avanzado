@@ -1,7 +1,7 @@
 {
   "name": "practica8-react-avanzado",
   "version": "1.0.0",
-  "description": "Single page application to manage ads, with redux",
+  "description": "Single page application to manage ads, with redux, unit testing",
   "author": "Ivan Chinea <chitenavi@gmail.com>",
   "private": true,
   "dependencies": {
@@ -11,6 +11,11 @@
     "antd": "^4.8.5",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
+    "connected-react-router": "^6.8.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
+    "enzyme-to-json": "^3.6.1",
+    "history": "^4.10.1",
     "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
@@ -35,6 +40,11 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ]
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
     ]
   },
   "browserslist": {

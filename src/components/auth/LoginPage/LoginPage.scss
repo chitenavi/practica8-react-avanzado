@@ -1,0 +1,32 @@
+@import '../../../scss/variables';
+
+.loginPage {
+  margin: 2rem auto 0 auto;
+  width: 350px;
+
+  &-error {
+    margin-top: 1rem;
+    text-align: center;
+  }
+
+  & .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+
+    padding: 2rem 1rem;
+    background-color: $bg-color-ter;
+    box-shadow: $shadow-primary;
+    border-radius: 1rem;
+
+    & .form-field {
+      width: 300px;
+
+      & .checkbox {
+        margin-right: 0.3rem;
+      }
+    }
+  }
+}
