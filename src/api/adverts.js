@@ -1,5 +1,7 @@
 import client from './client';
 
+// TODO: Make changes to connect new API
+
 const adverstUrl = 'apiv1/adverts';
 const { REACT_APP_API_URL: apiUrl } = process.env;
 
