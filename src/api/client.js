@@ -15,7 +15,7 @@ const removeAuthorizationHeader = () => {
 };
 
 client.login = credentials =>
-  client.post('/apiv1/auth/login', credentials).then(token => {
+  client.post('/api/v1/users/authenticate', credentials).then(token => {
     setAuthorizationHeader(token);
     return token;
   });
@@ -31,16 +31,21 @@ client.logout = () =>
 client.interceptors.response.use(
   response => {
     // console.log(response);
-    if (!response.data.ok)
+    if (response.data.status !== 'success') {
       return Promise.reject(
-        new Error(response.data.error || 'Something went wrong!!'),
+        new Error(response.data.error.message || 'Something went wrong!!'),
       );
+    }
 
     if (response.data.token) return response.data.token;
 
-    return response.data.result;
+    return response.data.data;
   },
   error => {
+    if (error.response) {
+      return Promise.reject(error.response.data);
+    }
+
     return Promise.reject(error);
   },
 );

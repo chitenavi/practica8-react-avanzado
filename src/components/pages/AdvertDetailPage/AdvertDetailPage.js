@@ -43,7 +43,7 @@ function AdvertDetailPage({ loadDetail, advert, onDelete, error, loading }) {
           <div className="product-container-img">
             <img
               src={
-                advert.photo
+                advert.image
                   ? `${advert.photoUrl}`
                   : 'http://via.placeholder.com/600x400?text=No+Image'
               }
@@ -63,6 +63,10 @@ function AdvertDetailPage({ loadDetail, advert, onDelete, error, loading }) {
             <p>
               <span>Tags: </span>
               {advert.tags.join(', ')}
+            </p>
+            <p>
+              <span>Description: </span>
+              {advert.description}
             </p>
           </div>
         </div>

@@ -2,7 +2,7 @@ import client from './client';
 
 // TODO: Make changes to connect new API
 
-const adverstUrl = 'apiv1/adverts';
+const adverstUrl = 'api/v1/adverts';
 const { REACT_APP_API_URL: apiUrl } = process.env;
 
 export const getAdverts = form => {
@@ -13,6 +13,7 @@ export const getAdverts = form => {
       searchParams.append('price', `${form.price[0]}-${form.price[1]}`);
     if (form.type !== 'all') searchParams.append('sale', form.type === 'sale');
     if (form.tags.length) searchParams.append('tags', form.tags.join(','));
+    searchParams.append('fields', 'name,price,tags,sale');
   }
   const url = `${adverstUrl}?${searchParams.toString()}`;
   return client.get(url);
@@ -21,7 +22,7 @@ export const getAdverts = form => {
 export const getAdvertDetail = advertId => {
   const url = `${adverstUrl}/${advertId}`;
   return client.get(url).then(response => {
-    response.photoUrl = `${apiUrl}${response.photo}`;
+    response.advert.photoUrl = `${apiUrl}${response.advert.image}`;
     return response;
   });
 };

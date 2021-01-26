@@ -114,7 +114,7 @@ export const loadTags = () => {
   // eslint-disable-next-line func-names
   return async function (dispatch, getState, { api }) {
     try {
-      const tags = await api.adverts.getAllTags();
+      const { tags } = await api.adverts.getAllTags();
       dispatch(tagsLoaded(tags));
     } catch (error) {
       dispatch(tagsLoaded([]));
@@ -127,8 +127,8 @@ export const loadAdverts = formFilter => {
   return async function (dispatch, getState, { api }) {
     dispatch(advertsLoadRequest());
     try {
-      const { rows: ads } = await api.adverts.getAdverts(formFilter);
-      dispatch(advertsLoadSuccess(ads));
+      const { adverts } = await api.adverts.getAdverts(formFilter);
+      dispatch(advertsLoadSuccess(adverts));
     } catch (error) {
       dispatch(advertsLoadFailure(error));
     }
@@ -174,8 +174,9 @@ export const loadAdvertDet = adId => {
   return async function (dispatch, getState, { api }) {
     dispatch(advertLoadDetRequest());
     try {
-      const adDetail = await api.adverts.getAdvertDetail(adId);
-      dispatch(advertLoadDetSuccess(adDetail));
+      const { advert } = await api.adverts.getAdvertDetail(adId);
+      // console.log(advert);
+      dispatch(advertLoadDetSuccess(advert));
     } catch (error) {
       await dispatch(advertsLoadFailure(error));
       dispatch(showFlashNotification('error', error.message));
