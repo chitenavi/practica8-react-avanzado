@@ -157,11 +157,11 @@ export const createAdvert = advertData => {
   return async function (dispatch, getState, { history, api }) {
     dispatch(advertsCreateRequest());
     try {
-      const newAd = await api.adverts.createAdvert(advertData);
+      const { advert } = await api.adverts.createAdvert(advertData);
 
-      await dispatch(advertsCreateSuccess(newAd));
+      await dispatch(advertsCreateSuccess(advert));
       dispatch(showFlashNotification('success', 'Advert created successfuly!'));
-      history.push(`/advert/${newAd._id}`);
+      history.push(`/advert/${advert._id}`);
     } catch (error) {
       await dispatch(advertsCreateFailure(error));
       dispatch(showFlashNotification('error', 'Advert was not created!'));

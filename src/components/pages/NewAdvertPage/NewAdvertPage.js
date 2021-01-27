@@ -23,7 +23,7 @@ const NewAdvertPage = ({ onCreate, error, loading }) => {
       }
     });
 
-    if (data.file) formData.append('photo', data.file);
+    if (data.file) formData.append('image', data.file);
 
     onCreate(formData);
   };

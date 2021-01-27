@@ -37,10 +37,8 @@ export const deleteAdvert = advertId => {
   return client.delete(url);
 };
 
-export const createAdvert = async data => {
+export const createAdvert = data => {
   const url = `${adverstUrl}`;
   const headers = { 'Content-Type': 'multipart/form-data' };
-  const newAd = await client.post(url, data, headers);
-
-  return newAd;
+  return client.post(url, data, headers);
 };
