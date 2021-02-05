@@ -34,7 +34,8 @@ export const getAllTags = () => {
 
 export const deleteAdvert = advertId => {
   const url = `${adverstUrl}/${advertId}`;
-  return client.delete(url);
+  const headers = { 'Content-Type': 'application/json' };
+  return client.delete(url, headers);
 };
 
 export const createAdvert = data => {
