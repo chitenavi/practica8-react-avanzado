@@ -115,7 +115,7 @@ describe('loadTags', () => {
   const api = { adverts: { getAllTags: jest.fn() } };
   test('should dispatch a TAGS_LOADED action with tags', async () => {
     const tags = ['work', 'mobile'];
-    api.adverts.getAllTags.mockResolvedValue(tags);
+    api.adverts.getAllTags.mockResolvedValue({ tags });
 
     await thunkAction(dispatch, undefined, { api });
 
