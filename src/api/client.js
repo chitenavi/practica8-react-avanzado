@@ -30,7 +30,7 @@ client.logout = () =>
 
 client.interceptors.response.use(
   response => {
-    // console.log(response);
+    if (response.status === 204) return 'deleted';
     if (response.data.status !== 'success') {
       return Promise.reject(
         new Error(response.data.error.message || 'Something went wrong!!'),
